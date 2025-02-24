@@ -80,7 +80,12 @@ class Juego:
         hab1.sur = puerta4
 
         laberinto = Laberinto()
-        laberinto.hijos = laberinto.hijos + [hab1, hab2, hab3, hab4]
+        #laberinto.hijos = laberinto.hijos + [hab1, hab2, hab3, hab4]
+        laberinto.añadirHijo(hab1)
+        laberinto.añadirHijo(hab2)
+        laberinto.añadirHijo(hab3)
+        laberinto.añadirHijo(hab4)
+
 
         puerta1.abierta = False
         puerta2.abierta = True
@@ -93,8 +98,8 @@ class Juego:
         laberinto = Laberinto()
         hab1 = Habitacion(1)
         hab2 = Habitacion(2)
-        laberinto.habitaciones.append(hab1)
-        laberinto.habitaciones.append(hab2)
+        laberinto.hijos.append(hab1)
+        laberinto.hijos.append(hab2)
         puerta = Puerta(True)
         hab1.sur = puerta
         hab2.norte = puerta
@@ -138,11 +143,17 @@ if __name__ == '__main__':
         #print(_.esPerezoso())
         #print(_.posicion)
         #print(_._modo)
-    print(laber.hijos[0].este)
-    print(laber.hijos[0].este.abierta)
-    print(laber.hijos[0].este.abierta)
-    print(laber.hijos[0].este)
-    print(laber.hijos[0].este.abierta)
+    print(laber.obtenerHabitacion(0).este)
+    print(laber.obtenerHabitacion(0).este.abierta)
+    print(laber.obtenerHabitacion(0).este.abierta)
+    print(laber.obtenerHabitacion(0).este)
+    print(laber.obtenerHabitacion(0).este.abierta)
+
+    print("\n\n\n")
+    print(laber.obtenerHabitacion(0).padre)
+    print(laber.obtenerHabitacion(1).padre)
+    print(laber.obtenerHabitacion(2).padre)
+    print(laber.obtenerHabitacion(3).padre)
 
     #laber, vecBichos = x[0], x[1]
     #juego.bichos = juego.bichos+vecBichos

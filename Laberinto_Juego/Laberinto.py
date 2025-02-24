@@ -8,7 +8,7 @@ class Laberinto(Contenedor):
         super().__init__()
 
     def __str__(self):
-        return "Este es un laberinto"
+        return "Esto es un laberinto"
 
     def entrar(self) -> None:
         print("Entrar en la habitacion 1")

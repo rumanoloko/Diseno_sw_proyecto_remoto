@@ -1,14 +1,21 @@
-class Habitacion:
+from typing import override
+
+from Laberinto_Juego.Contenedor import Contenedor
+class Habitacion(Contenedor):
     def __init__(self, numero) -> None:
+        super().__init__()
         self._numero = numero
         self._sur = None
         self._norte = None
         self._este = None
         self._oeste = None
 
+    @override
     def añadir(self, unaHabitacion) -> None:
         self.habitaciones.append(unaHabitacion)
-
+    @override
+    def entrar(self) -> None:
+        pass
 
     @property
     def numero(self):

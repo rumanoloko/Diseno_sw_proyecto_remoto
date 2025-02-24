@@ -1,9 +1,11 @@
+from typing import Any
+
 from Laberinto_Juego.ElementoMapa import ElementoMapa
 class Contenedor(ElementoMapa):
     def __init__(self):
         super().__init__()
-        self._hijos = []
-        self._padre = None
+        self._hijos: list() = []
+        self._padre:Any = None
 
     def añadirHijo(self, hijo) -> bool:
         if hijo in self.hijos:

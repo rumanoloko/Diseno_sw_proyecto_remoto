@@ -36,8 +36,8 @@ class Juego:
         puerta.lado1 = hab1.sur
         puerta.lado2 = hab2.norte
         laberinto = Laberinto()
-        laberinto.append(hab1)
-        laberinto.append(hab2)
+        laberinto.agregarHabitacion(hab1)
+        laberinto.agregarHabitacion(hab2)
         return laberinto
 
     def crearLaberinto4Hab4BichosFM(self, unFM:Creator) -> tuple():
@@ -80,7 +80,7 @@ class Juego:
         hab1.sur = puerta4
 
         laberinto = Laberinto()
-        laberinto.habitaciones = laberinto.habitaciones + [hab1, hab2, hab3, hab4]
+        laberinto.hijos = laberinto.hijos + [hab1, hab2, hab3, hab4]
 
         puerta1.abierta = False
         puerta2.abierta = True
@@ -138,11 +138,11 @@ if __name__ == '__main__':
         #print(_.esPerezoso())
         #print(_.posicion)
         #print(_._modo)
-    print(laber.habitaciones[0].este)
-    print(laber.habitaciones[0].este.abierta)
-    print(laber.habitaciones[0].este.abierta)
-    print(laber.habitaciones[0].este)
-    print(laber.habitaciones[0].este.abierta)
+    print(laber.hijos[0].este)
+    print(laber.hijos[0].este.abierta)
+    print(laber.hijos[0].este.abierta)
+    print(laber.hijos[0].este)
+    print(laber.hijos[0].este.abierta)
 
     #laber, vecBichos = x[0], x[1]
     #juego.bichos = juego.bichos+vecBichos

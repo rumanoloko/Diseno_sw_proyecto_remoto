@@ -1,8 +1,11 @@
-from Habitacion import Habitacion
+from typing import Any
 
-class Laberinto:
+from Habitacion import Habitacion
+from Laberinto_Juego.ElementoMapa import ElementoMapa
+from Laberinto_Juego.Contenedor import Contenedor
+class Laberinto(Contenedor):
     def __init__(self):
-        self.habitaciones = []
+        super().__init__()
 
     def __str__(self):
         return "Este es un laberinto"
@@ -12,13 +15,16 @@ class Laberinto:
 
     def eliminarHabitacion(self, unaHabitacion:Habitacion) -> None:
         absent = True
-        if (unaHabitacion in self.habitaciones):
-            self.habitaciones.remove(unaHabitacion)
+        if (unaHabitacion in self.hijos):
+            self.hijos.remove(unaHabitacion)
             absent = False
 
         if absent:
             pass
 
     def agregarHabitacion(self, unaHabitacion: Habitacion) -> None:
-        if(unaHabitacion not in self.habitaciones):
-            self.habitaciones.append(unaHabitacion)
+        if(unaHabitacion not in self.hijos):
+            self.hijos.append(unaHabitacion)
+
+    def obtenerHabitacion(self, numHabitacion:int) -> Any:
+        return self.hijos[numHabitacion]

@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from Laberinto_Juego.BichoAgresivo import BichoAgresivo
 from Laberinto_Juego.Pared import Pared
 from Laberinto_Juego.Puerta import Puerta
-from Laberinto_Juego.Laberinto import Laberinto
+from Laberinto_Juego import Laberinto
 from Laberinto_Juego.Habitacion import Habitacion
 from Laberinto_Juego.Habitacion import Habitacion
 from Laberinto_Juego.Bicho import Bicho

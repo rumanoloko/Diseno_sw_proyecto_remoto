@@ -159,6 +159,7 @@ if __name__ == '__main__':
     #juego.bichos = juego.bichos+vecBichos
 
 
-
+#hab orientaciones add:self fabricarNorte; add:self fabricarSur; add:self fabricarEste; add:self fabricarOeste
+#hab orientaciones do[:each | hab ponerEnOr:each elemento: self fabricarPared].
 
 

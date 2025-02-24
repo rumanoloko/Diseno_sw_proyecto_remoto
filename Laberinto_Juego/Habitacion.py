@@ -1,5 +1,5 @@
-from typing import override
-
+from typing import override, List
+from Laberinto_Juego.Orientacion import Orientacion
 from Laberinto_Juego.Contenedor import Contenedor
 class Habitacion(Contenedor):
     def __init__(self, numero) -> None:
@@ -9,6 +9,7 @@ class Habitacion(Contenedor):
         self._norte = None
         self._este = None
         self._oeste = None
+        self._orientaciones = {}
 
     @override
     def añadir(self, unaHabitacion) -> None:
@@ -16,7 +17,9 @@ class Habitacion(Contenedor):
     @override
     def entrar(self) -> None:
         pass
-
+    @property
+    def orientaciones(self) -> List[Orientacion] | None:
+        return self._orientaciones
     @property
     def numero(self):
         return self._numero
@@ -49,7 +52,16 @@ class Habitacion(Contenedor):
     def oeste(self, oeste) -> None:
         self._oeste = oeste
 
+    @orientaciones.setter
+    def orientaciones(self, orientaciones:List[Orientacion]) -> None:
+        self.orientaciones = orientaciones
+
+    def añadirOrientacion(self, orientacion, elementoOrientacion) -> bool:
+        #unaOr ponerElemento:unEM en:self.
+        self.orientaciones[orientacion] = elementoOrientacion
+
     def __str__(self):
         return f"Habitacion {self.numero}"
+
 
 

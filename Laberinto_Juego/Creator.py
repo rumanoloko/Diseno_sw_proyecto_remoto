@@ -6,7 +6,7 @@ from Laberinto_Juego import Laberinto
 from Laberinto_Juego.Habitacion import Habitacion
 from Laberinto_Juego.Habitacion import Habitacion
 from Laberinto_Juego.Bicho import Bicho
-
+from Laberinto_Juego.Orientacion import Orientacion, Norte, Sur, Este, Oeste
 class Creator(ABC):
     def fabricarHabitacion(self, numeroHabitacion: int) -> Habitacion:
         habitacion = Habitacion(numeroHabitacion)
@@ -15,6 +15,12 @@ class Creator(ABC):
         habitacion.este = self.fabricarPared()
         habitacion.oeste = self.fabricarPared()
         return habitacion
+
+    def fabricarLaberinto2FM(self):
+        pass
+
+    def fabricarLaberinto2FMD(self):
+        pass
 
     def fabricarPuerta(self) -> Puerta:
         return Puerta()
@@ -31,6 +37,19 @@ class Creator(ABC):
         bicho = Bicho()
         bicho.iniPerezoso()
         return bicho
+
+    def fabricarOrientacionNorte(self) -> Orientacion:
+        return Norte
+
+    def fabricarOrientacionSur(self) -> Orientacion:
+        return Sur
+
+    def fabricarOrientacionEste(self) -> Orientacion:
+        return Este
+
+    def fabricarOrientacionOeste(self) -> Orientacion:
+        return Oeste
+
 
 
 

@@ -63,3 +63,11 @@ class Bicho:
     def iniPerezoso(self) -> bool:
         self._modo = BichoPerezoso()
         self._poder = 1
+
+    @abstractmethod
+    def duerme(self):
+        pass
+
+    @abstractmethod
+    def camina(self):
+        pass

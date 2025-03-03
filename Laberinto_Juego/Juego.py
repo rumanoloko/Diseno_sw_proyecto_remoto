@@ -161,5 +161,11 @@ if __name__ == '__main__':
 
 #hab orientaciones add:self fabricarNorte; add:self fabricarSur; add:self fabricarEste; add:self fabricarOeste
 #hab orientaciones do[:each | hab ponerEnOr:each elemento: self fabricarPared].
+#juego laberinto recorrer:[each | Trsnacript show:each printString; cr].
+#juego laberinto recorrer:[each | each esPuerta ifTrue:[each abrir]].
+#juego laberinto recorrer:[each | each esPuerta ifTrue:[each cerrar]].
+#juego abrirPuertas. 'juego>>abrirPuerta
+    #self laberinto abrirPuerta
+#juego cerrarPuertas
 
 

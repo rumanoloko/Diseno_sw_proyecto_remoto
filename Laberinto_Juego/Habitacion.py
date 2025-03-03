@@ -63,5 +63,9 @@ class Habitacion(Contenedor):
     def __str__(self):
         return f"Habitacion {self.numero}"
 
+        #aStream newxtPull:'Hab'; nextPutAll:self
+
+    def entrar(self):
+        print('Estas en ', self.__str__())
 
 

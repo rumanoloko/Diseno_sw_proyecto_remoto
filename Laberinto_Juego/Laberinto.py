@@ -28,3 +28,6 @@ class Laberinto(Contenedor):
 
     def obtenerHabitacion(self, numHabitacion:int) -> Any:
         return self.hijos[numHabitacion]
+
+    def esPuerta(self) -> bool:
+        return False

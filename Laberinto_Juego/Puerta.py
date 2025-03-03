@@ -17,9 +17,8 @@ class Puerta:
     def lado2(self) -> Any:
         return self._lado2
 
-
     @abierta.setter
-    def abierta(self, estado: bool) -> bool:
+    def abier(self, estado: bool) -> bool:
         self._abierta = estado
     @lado1.setter
     def lado1(self, lado:Habitacion) -> Any:
@@ -30,3 +29,15 @@ class Puerta:
 
     def __str__(self):
         return "La puerta está abierta" if self.abierta else "La puerta está cerrada"
+
+    def esPuerta(self):
+        return True
+
+    def entrar(self, alguien):
+        if self.abierta:
+            if alguien.posicion == self._lado1:
+                alguien.posicion = self._lado2
+            else:
+                alguien.posicion = self._lado1
+        else:
+            print('Chocaste con una puerta')

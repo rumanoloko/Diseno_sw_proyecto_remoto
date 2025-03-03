@@ -1,0 +1,23 @@
+toDo list
+
+    -abrir todas Puertas(Iterator)
+    -entrar(Alguien): puertas
+    -movimiento de los bichos
+    -otro contenedor (armarios)
+    -activar todas las bombas
+    -implementar explosion de las bombas
+    -implementar otras variantes de entrar en laberinto(aleatoria)
+    -test laberinto 4 habitaciones
+    -test unitario
+    -
+    -
+    -
+
+    instance OrderedCollection no entiende recorrer contenedor
+    self orientaciones recorrer:unBloque contenedor:self.
+    (playground) ->
+    recorrer debe heredarse desde contenedor con un comportamiento predeterminado para las hojas
+
+
+    Done:
+    -entrar(alguien)

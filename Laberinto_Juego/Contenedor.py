@@ -1,4 +1,6 @@
 from __future__ import annotations
+
+from abc import abstractmethod
 from typing import List
 from Laberinto_Juego.ElementoMapa import ElementoMapa
 
@@ -41,3 +43,7 @@ class Contenedor(ElementoMapa):
         if padre is not None and not isinstance(padre, Contenedor):
             raise TypeError("padre debe ser un objeto Contenedor o None")
         self._padre = padre
+
+    @abstractmethod
+    def recorrer(self):
+        pass

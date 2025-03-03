@@ -6,3 +6,6 @@ class Pared(ABC):
 
     def __str__(self):
         return "Esta es una pared normal"
+
+    def entrar(self):
+        print("Orco, chocaste con una pared")

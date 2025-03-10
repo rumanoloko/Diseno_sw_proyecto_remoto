@@ -39,7 +39,7 @@ class Este(Orientacion):
         super().__init__()
     @override
     def __str__(self):
-        return "Esto es la horientacion este"
+        return "Esto es un punto cardinal por donde sale el Sol"
 
     @override
     def crearOrientacion(self):
@@ -50,7 +50,7 @@ class Oeste(Orientacion):
         super().__init__()
     @override
     def __str__(self):
-        return "Esto es la horientacion oeste"
+        return "Esto es un punto cardinal por donde se esconde el Sol"
 
     @override
     def crearOrientacion(self):

@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, override
 
 from Habitacion import Habitacion
 from Laberinto_Juego.ElementoMapa import ElementoMapa
@@ -31,3 +31,9 @@ class Laberinto(Contenedor):
 
     def esPuerta(self) -> bool:
         return False
+
+    @override
+    def recorrer(self):
+        print(self.__str__())
+        for x in self._hijos:
+            x.recorrer()

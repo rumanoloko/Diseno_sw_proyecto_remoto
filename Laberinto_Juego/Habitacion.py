@@ -68,4 +68,12 @@ class Habitacion(Contenedor):
     def entrar(self):
         print('Estas en ', self.__str__())
 
+    @override
+    def recorrer(self):
+        print(self.__str__())
+        #print(self.hijos)
+        for x in self.hijos:
+            x.recorrer()
+
+
 

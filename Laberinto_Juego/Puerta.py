@@ -18,7 +18,7 @@ class Puerta:
         return self._lado2
 
     @abierta.setter
-    def abier(self, estado: bool) -> bool:
+    def abierta(self, estado: bool) -> bool:
         self._abierta = estado
     @lado1.setter
     def lado1(self, lado:Habitacion) -> Any:

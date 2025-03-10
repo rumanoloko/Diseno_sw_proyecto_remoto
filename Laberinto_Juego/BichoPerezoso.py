@@ -6,7 +6,16 @@ class BichoPerezoso(Modo):
 
     @override
     def __str__(self):
-        return "Este es un bicho perezoso"
+        return "Bicho perezoso"
 
     def esPerezoso(self):
         return True
+
+    def camina(self):
+        pass
+
+    def camina(self):
+        return "Bicho agresivo camina"
+
+    def duerme(self):
+        return "Bicho agresivo duerme"

@@ -1,16 +1,16 @@
 from __future__ import annotations
 
 from abc import abstractmethod
-from typing import List
+from typing import List, Any
 from Laberinto_Juego.ElementoMapa import ElementoMapa
 
 class Contenedor(ElementoMapa):
     def __init__(self):
         super().__init__()
-        self._hijos: List[ElementoMapa] = []
+        self._hijos: List[Any] = []
         self._padre: Contenedor | None = None  # Puede ser Contenedor o None
 
-    def añadirHijo(self, hijo: ElementoMapa) -> bool:
+    def añadirHijo(self, hijo: Any) -> bool:
         if hijo in self.hijos:
             return False
         hijo.padre = self
@@ -47,3 +47,6 @@ class Contenedor(ElementoMapa):
     @abstractmethod
     def recorrer(self):
         pass
+
+    def __str__(self) -> None:
+        return "Este es un contenedor"

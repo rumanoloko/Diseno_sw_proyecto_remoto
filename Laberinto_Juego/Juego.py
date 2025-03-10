@@ -85,6 +85,10 @@ class Juego:
         laberinto.añadirHijo(hab2)
         laberinto.añadirHijo(hab3)
         laberinto.añadirHijo(hab4)
+        hab1.añadirHijo(bichoA1)
+        hab2.añadirHijo(bichoA2)
+        hab3.añadirHijo(bichoP1)
+        hab4.añadirHijo(bichoP2)
 
 
         puerta1.abierta = False
@@ -137,24 +141,26 @@ if __name__ == '__main__':
     creator = Creator()
     laber, bichos = juego.crearLaberinto4Hab4BichosFM(creator)
     print(laber)
-    for _ in bichos:
-        print(_)
+    #for _ in bichos:
+        #print(_)
         #print(_.esAgresivo())
         #print(_.esPerezoso())
         #print(_.posicion)
         #print(_._modo)
-    print(laber.obtenerHabitacion(0).este)
-    print(laber.obtenerHabitacion(0).este.abierta)
-    print(laber.obtenerHabitacion(0).este.abierta)
-    print(laber.obtenerHabitacion(0).este)
-    print(laber.obtenerHabitacion(0).este.abierta)
+    #print(laber.obtenerHabitacion(0).este)
+    #print(laber.obtenerHabitacion(0).este.abierta)
+    #print(laber.obtenerHabitacion(0).este.abierta)
+    #print(laber.obtenerHabitacion(0).este)
+    #print(laber.obtenerHabitacion(0).este.abierta)
 
-    print("\n\n\n")
-    print(laber.obtenerHabitacion(0).padre)
-    print(laber.obtenerHabitacion(1).padre)
-    print(laber.obtenerHabitacion(2).padre)
-    print(laber.obtenerHabitacion(3).padre)
-
+    #print("\n\n\n")
+    #print(laber.obtenerHabitacion(0).padre)
+    #print(laber.obtenerHabitacion(1).padre)
+    #print(laber.obtenerHabitacion(2).padre)
+    #print(laber.obtenerHabitacion(3).padre)
+    print()
+    print("Iterador")
+    print(laber.recorrer())
     #laber, vecBichos = x[0], x[1]
     #juego.bichos = juego.bichos+vecBichos
 

@@ -1,12 +1,13 @@
 from abc import ABC, abstractmethod
 from typing import override
 
+from Laberinto_Juego.ElementoMapa import ElementoMapa
 from Laberinto_Juego.Modo import Modo
 from Laberinto_Juego.Habitacion import Habitacion
 from Laberinto_Juego.BichoAgresivo import BichoAgresivo
 from Laberinto_Juego.BichoPerezoso import BichoPerezoso
 
-class Bicho:
+class Bicho(ElementoMapa):
     def __init__(self, vidas: int = 5, modo: Modo = None, poder: int = 1, posicion: Habitacion = None) -> None:
         self._vidas = vidas
         self._modo = modo
@@ -64,10 +65,16 @@ class Bicho:
         self._modo = BichoPerezoso()
         self._poder = 1
 
-    @abstractmethod
+    @override
+    def camina(self):
+        return "El bicho agresivo camina"
+
+    @override
     def duerme(self):
+        return "El bicho agresivo duerme"
+
+    def entrar(self) -> None:
         pass
 
-    @abstractmethod
-    def camina(self):
-        pass
+    def recorrer(self):
+        print(self.__str__())

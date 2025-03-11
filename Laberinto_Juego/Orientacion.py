@@ -12,6 +12,18 @@ class Orientacion:
     def crearOrientacion(self):
         pass
 
+    def irNorte(self):
+        pass
+
+    def irOeste(self):
+        pass
+
+    def irEste(self):
+        pass
+
+    def irSur(self):
+        pass
+
 class Norte(Orientacion):
     def __init__(self):
         super().__init__()

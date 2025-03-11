@@ -9,7 +9,12 @@ class Habitacion(Contenedor):
         self._norte = None
         self._este = None
         self._oeste = None
-        self._orientaciones = {}
+        self._orientaciones = {
+            'norte':None,
+            'este':None,
+            'oeste':None,
+            'sur':None
+        }
 
     @override
     def añadir(self, unaHabitacion) -> None:
@@ -65,15 +70,35 @@ class Habitacion(Contenedor):
 
         #aStream newxtPull:'Hab'; nextPutAll:self
 
-    def entrar(self):
+    def entrar(self, alguien):
         print('Estas en ', self.__str__())
 
     @override
     def recorrer(self):
         print(self.__str__())
+
         #print(self.hijos)
         for x in self.hijos:
             x.recorrer()
+
+    def irAlSur(self, alguien):
+        #self sur entrar:alguien
+        self.sur.entrar(alguien)
+            #el personaje x esta en habx
+            #chocaste con una pared
+            #la puerta está cerrada
+
+    def irAlNorte(self, alguien):
+        #self sur entrar:alguien
+        self.norte.entrar(alguien)
+
+    def irAlEste(self, alguien):
+        #self sur entrar:alguien
+        self.este.entrar(alguien)
+
+    def irAlOeste(self, alguien):
+        #self sur entrar:alguien
+        self.oeste.entrar(alguien)
 
 
 

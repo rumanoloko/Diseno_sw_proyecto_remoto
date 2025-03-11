@@ -9,9 +9,10 @@ toDo list
     -implementar otras variantes de entrar en laberinto(aleatoria)
     -test laberinto 4 habitaciones
     -test unitario
-    -
-    -
-    -
+    -poner numero al bicho
+    -caminar aleatorio
+    -implementar caminar del personaje
+    -implementar los ataques
 
     instance OrderedCollection no entiende recorrer contenedor
     self orientaciones recorrer:unBloque contenedor:self.

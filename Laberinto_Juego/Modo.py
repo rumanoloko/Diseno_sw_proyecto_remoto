@@ -4,8 +4,7 @@ from typing import override
 
 
 class Modo:
-
-    @override
+    @abstractmethod
     def __str__(self):
         pass
 
@@ -20,7 +19,9 @@ class Modo:
 
     @abstractmethod
     def caminar(self, unBicho):
-        pass
+        if unBicho.obtenerOrientacion():
+            pass
+        else: self(unBicho)#caminar:unBicho
 
     @abstractmethod
     def dormir(self, unBicho):

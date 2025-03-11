@@ -50,3 +50,7 @@ class Contenedor(ElementoMapa):
 
     def __str__(self) -> None:
         return "Este es un contenedor"
+
+
+    def caminar(self):
+        pass

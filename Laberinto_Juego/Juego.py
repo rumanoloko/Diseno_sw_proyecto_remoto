@@ -3,8 +3,9 @@ from Laberinto_Juego.Creator import  Creator
 from Laberinto_Juego.Habitacion import Habitacion
 from Laberinto_Juego.Laberinto import Laberinto
 from Laberinto_Juego.Pared import Pared
+from Laberinto_Juego.Personaje import Personaje
 from Laberinto_Juego.Puerta import Puerta
-
+from Laberinto_Juego.Personaje import Personaje
 class Juego:
 
     def __init__(self):
@@ -25,6 +26,10 @@ class Juego:
         self.hab2.norte = self.puerta
         self.puerta.lado1 = self.hab1
         self.puerta.lado2 = self.hab2
+
+    def agregarPersonaje(self, nombre):
+        self.personaje = Personaje(nombre)
+
 
     def crearLaberinto2HabitacionesFM(self, unFM:Creator) -> Laberinto:
         hab1 = unFM.fabricarHabitacion(1)
@@ -62,7 +67,7 @@ class Juego:
         puerta1.lado1 = hab1
         puerta1.lado2 = hab2
         hab1.este = puerta1
-        hab2.oeste = puerta2
+        hab2.oeste = puerta1
 
         puerta2.lado1 = hab2
         puerta2.lado2 = hab4
@@ -91,11 +96,11 @@ class Juego:
         hab4.añadirHijo(bichoP2)
 
 
-        puerta1.abierta = False
+        puerta1.abierta = True
         puerta2.abierta = True
         puerta3.abierta = True
         puerta4.abierta = True
-        return (laberinto, [bichoA1, bichoA2, bichoP1, bichoP2])
+        return laberinto, [bichoA1, bichoA2, bichoP1, bichoP2]
 
 
     def fabricarLaberinto(self) -> Laberinto:
@@ -111,13 +116,20 @@ class Juego:
 
     def obtenerHabitacionPorNumero(self):
         pass
-# juego crearLaberinto2HabitacionesFM: creator.
-#creatorB:= CreatorB.
-#juego := creatorB crearJuego
-#juego crearLaberinto2HabitacionesFM:creatorB
-#pared := creatorB fabricarPared
-#CreatorB sobreescribe el metodo de su clase padre crearPared
-#
+
+    def buscarEnemigo(self):
+        pass
+
+    def buscarPersonaje(self, unBicho):
+        pass
+    #si posicionPersonaje == posicionBicho -> self person esAtacadoUnBicho:unBicho
+    # juego crearLaberinto2HabitacionesFM: creator.
+    #creatorB:= CreatorB.
+    #juego := creatorB crearJuego
+    #juego crearLaberinto2HabitacionesFM:creatorB
+    #pared := creatorB fabricarPared
+    #CreatorB sobreescribe el metodo de su clase padre crearPared
+    #
     def gestionBichos(self):
         pass
 
@@ -141,8 +153,8 @@ if __name__ == '__main__':
     creator = Creator()
     laber, bichos = juego.crearLaberinto4Hab4BichosFM(creator)
     print(laber)
-    #for _ in bichos:
-        #print(_)
+    for _ in bichos:
+        print(_._modo)
         #print(_.esAgresivo())
         #print(_.esPerezoso())
         #print(_.posicion)
@@ -161,6 +173,30 @@ if __name__ == '__main__':
     print()
     print("Iterador")
     print(laber.recorrer())
+    juego.agregarPersonaje("Pepe")
+    #print(bichos[0].posicion)
+    #print(bichos[0].camina())
+    bichos[0].start()
+    bichos[1].start()
+    bichos[2].start()
+    bichos[3].start()
+    #juego lanzarBichos.
+    #juego acabarBichos.
+    #juego agregarPersonaje:'Pepe'.
+    #person:= juego person.
+    #person irAlNorte.
+    #person irAlSur.
+    #person irAlEste.
+    #person isAlOeste.
+    #juego abrirPuertas.
+    #juego cerrarPuertas.
+    #juego lanzarBichos.
+    #juego terminarBichos.
+
+
+
+
+
     #laber, vecBichos = x[0], x[1]
     #juego.bichos = juego.bichos+vecBichos
 

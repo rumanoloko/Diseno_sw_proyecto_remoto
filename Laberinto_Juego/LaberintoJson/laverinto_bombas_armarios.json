@@ -1,0 +1,32 @@
+{
+  "forma":"cuadrada",
+  "laberinto": [
+    {"tipo": "habitacion",
+      "num": 1,
+      "hijos": [
+        {"tipo": "bomba"},
+        {"tipo": "armario", "num": 1, "hijos": []}
+      ]
+    },
+    {"tipo": "habitacion",
+      "num": [0,1],
+      "hijos": []
+    },
+    {"tipo": "habitacion",
+      "num": [1,1],
+      "hijos": []
+    },
+    {"tipo": "habitacion",
+      "num": [1,2],
+      "hijos": [
+        {"tipo": "bomba", "estado": true},
+        {"tipo": "armario"}
+      ]
+    }
+  ],
+  "puertas": [
+    [1,"norte", 2, "norte"], [2, "este", 3, "oeste"],
+    [3, "sur", 4, "norte"]
+  ],
+  "bichos": []
+}

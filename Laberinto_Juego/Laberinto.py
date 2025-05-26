@@ -1,6 +1,6 @@
 from typing import Any, override
 
-from Habitacion import Habitacion
+from Laberinto_Juego.Habitacion import Habitacion
 from Laberinto_Juego.ElementoMapa import ElementoMapa
 from Laberinto_Juego.Contenedor import Contenedor
 class Laberinto(Contenedor):
@@ -34,6 +34,7 @@ class Laberinto(Contenedor):
 
     @override
     def recorrer(self):
+        print("Recorriendo")
         print(self.__str__())
         for x in self._hijos:
             x.recorrer()

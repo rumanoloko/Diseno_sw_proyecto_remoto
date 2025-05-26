@@ -1,11 +1,11 @@
+"""
 import threading
 import random
-from Laberinto_Juego.Habitacion import Habitacion
-from Laberinto_Juego.Pared import Pared
-from Laberinto_Juego.Puerta import Puerta
-from Laberinto_Juego.BichoAgresivo import BichoAgresivo
-from Laberinto_Juego.BichoPerezoso import BichoPerezoso
+from typing import TYPE_CHECKING
+from Laberinto_Juego import Habitacion, Pared, Puerta
+from Laberinto_Juego import BichoAgresivo, BichoPerezoso, Ente
 from Laberinto_Juego.Ente import Ente
+
 
 class Bicho(Ente):
     _numero = 0
@@ -20,7 +20,7 @@ class Bicho(Ente):
         self._timer = None  # Para manejar el temporizador
 
     def start(self):
-        """Inicia la ejecución del Bicho solo si tiene una posición asignada."""
+        #Inicia la ejecución del Bicho solo si tiene una posición asignada.
         if self.posicion is None:
             with Bicho._lock:
                 print(f"Error: No se puede iniciar {self} porque no tiene una posición asignada.")
@@ -32,26 +32,26 @@ class Bicho(Ente):
         self.start_camina()
 
     def start_camina(self):
-        """Inicia el movimiento del bicho cada 3 segundos sin bloquear el programa."""
+        #Inicia el movimiento del bicho cada 3 segundos sin bloquear el programa.
         if not self._running:
             self._running = True
             self._mover_bicho()
 
     def stop_camina(self):
-        """Detiene el movimiento del bicho."""
+        #Detiene el movimiento del bicho.
         self._running = False
         if self._timer:
             self._timer.cancel()  # Cancela el temporizador activo
 
     def _mover_bicho(self):
-        """Ejecuta camina() y programa la siguiente ejecución en 3 segundos."""
+        #Ejecuta camina() y programa la siguiente ejecución en 3 segundos.
         if self._running:
             self.camina()
             self._timer = threading.Timer(3, self._mover_bicho)
             self._timer.start()
 
     def camina(self):
-        """El bicho intenta moverse a una habitación conectada."""
+        #El bicho intenta moverse a una habitación conectada.
         if not self.posicion:
             with Bicho._lock:
                 print(f"Error: {self} no tiene una posición inicial válida.")
@@ -94,5 +94,6 @@ class Bicho(Ente):
 
     def __str__(self):
         return self._modo.__str__()
+"""
 
 

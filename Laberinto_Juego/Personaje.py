@@ -1,3 +1,4 @@
+"""
 from Laberinto_Juego.Ente import Ente
 from Laberinto_Juego.Habitacion import Habitacion
 class Personaje(Ente):
@@ -42,3 +43,4 @@ class Personaje(Ente):
 
     def irOeste(self):
         self.posicion.irAlOeste(self)
+"""

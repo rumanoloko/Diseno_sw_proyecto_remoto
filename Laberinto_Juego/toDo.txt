@@ -1,5 +1,5 @@
 toDo list
-
+    -implementar el tunel
     -abrir todas Puertas(Iterator)
     -entrar(Alguien): puertas
     -movimiento de los bichos
@@ -13,7 +13,8 @@ toDo list
     -caminar aleatorio
     -implementar caminar del personaje
     -implementar los ataques
-
+-Mejoras
+    implementar otros tipos de proxyes(control o de protección)
     instance OrderedCollection no entiende recorrer contenedor
     self orientaciones recorrer:unBloque contenedor:self.
     (playground) ->

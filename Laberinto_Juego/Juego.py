@@ -1,16 +1,25 @@
-from Laberinto_Juego.Bicho import Bicho
-from Laberinto_Juego.Creator import  Creator
+from typing import TYPE_CHECKING
+#from Laberinto_Juego.Ente import Bicho
 from Laberinto_Juego.Habitacion import Habitacion
-from Laberinto_Juego.Laberinto import Laberinto
+from Laberinto_Juego.Contenedor import Contenedor
+from Laberinto_Juego import Laberinto
 from Laberinto_Juego.Pared import Pared
-from Laberinto_Juego.Personaje import Personaje
 from Laberinto_Juego.Puerta import Puerta
-from Laberinto_Juego.Personaje import Personaje
-class Juego:
 
+if TYPE_CHECKING:
+    from Laberinto_Juego.Ente import Bicho
+
+#from Laberinto_Juego.Laberinto import Laberinto
+
+#from Laberinto_Juego.Director import Director
+#from Laberinto_Juego.Creator import Creator
+
+
+class Juego:
+    #from Laberinto_Juego.Ente import Bicho
     def __init__(self):
         self.laberinto = Laberinto()
-        self.bichos = [Bicho()]
+        self.bichos = []
 
     def crearLaberinto2Habitaciones(self) -> None:
         self.hab1 = Habitacion(1)
@@ -28,10 +37,11 @@ class Juego:
         self.puerta.lado2 = self.hab2
 
     def agregarPersonaje(self, nombre):
+        from Laberinto_Juego.Ente import Personaje
         self.personaje = Personaje(nombre)
 
 
-    def crearLaberinto2HabitacionesFM(self, unFM:Creator) -> Laberinto:
+    def crearLaberinto2HabitacionesFM(self, unFM):
         hab1 = unFM.fabricarHabitacion(1)
         hab2 = unFM.fabricarHabitacion(2)
         puerta = unFM.fabricarPuerta()
@@ -45,7 +55,7 @@ class Juego:
         laberinto.agregarHabitacion(hab2)
         return laberinto
 
-    def crearLaberinto4Hab4BichosFM(self, unFM:Creator) -> tuple():
+    def crearLaberinto4Hab4BichosFM(self, unFM = None) -> tuple():
         hab1 = unFM.fabricarHabitacion(1)
         hab2 = unFM.fabricarHabitacion(2)
         hab3 = unFM.fabricarHabitacion(3)
@@ -54,10 +64,10 @@ class Juego:
         puerta2 = unFM.fabricarPuerta()
         puerta3 = unFM.fabricarPuerta()
         puerta4 = unFM.fabricarPuerta()
-        bichoA1 = unFM.fabricarAgresivo()
-        bichoA2 = unFM.fabricarAgresivo()
-        bichoP1 = unFM.fabricarPerezoso()
-        bichoP2 = unFM.fabricarPerezoso()
+        bichoA1 = unFM.fabricarAgresivo(hab1)
+        bichoA2 = unFM.fabricarAgresivo(hab2)
+        bichoP1 = unFM.fabricarPerezoso(hab3)
+        bichoP2 = unFM.fabricarPerezoso(hab3)
 
         bichoA1.posicion = hab1
         bichoA2.posicion = hab2
@@ -103,7 +113,7 @@ class Juego:
         return laberinto, [bichoA1, bichoA2, bichoP1, bichoP2]
 
 
-    def fabricarLaberinto(self) -> Laberinto:
+    def fabricarLaberinto(self):
         laberinto = Laberinto()
         hab1 = Habitacion(1)
         hab2 = Habitacion(2)
@@ -133,10 +143,10 @@ class Juego:
     def gestionBichos(self):
         pass
 
-    def agregarBicho(self, bicho:Bicho) -> None:
+    def agregarBicho(self, bicho) -> None:
         self.bichos.append(bicho)
 
-    def eliminarBicho(self, bicho:Bicho) -> None:
+    def eliminarBicho(self, bicho) -> None:
         hayBicho = False
         if bicho in self.bichos:
             self.bichos.remove(bicho)
@@ -146,19 +156,25 @@ class Juego:
 
 
 if __name__ == '__main__':
+    from Laberinto_Juego.Ente import Personaje, Bicho
+    from Laberinto_Juego.Creator import Creator
     juego = Juego()
     #ba = Bicho(5, BichoAgresivo, 5, None)
     #print(ba.esAgresivo())
     #print(ba.esPerezoso())
     creator = Creator()
-    laber, bichos = juego.crearLaberinto4Hab4BichosFM(creator)
+    laber, bichos= juego.crearLaberinto4Hab4BichosFM(creator)
+    print("Hola")
+    print(laber)
     print(laber)
     for _ in bichos:
         print(_._modo)
         #print(_.esAgresivo())
         #print(_.esPerezoso())
-        #print(_.posicion)
-        #print(_._modo)
+        print(_.posicion)
+    print("Laberinto")
+    for hijo in laber.hijos:
+        print(hijo)
     #print(laber.obtenerHabitacion(0).este)
     #print(laber.obtenerHabitacion(0).este.abierta)
     #print(laber.obtenerHabitacion(0).este.abierta)
@@ -209,5 +225,3 @@ if __name__ == '__main__':
 #juego abrirPuertas. 'juego>>abrirPuerta
     #self laberinto abrirPuerta
 #juego cerrarPuertas
-
-

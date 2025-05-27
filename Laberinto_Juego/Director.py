@@ -1,19 +1,20 @@
 import json
+from typing import Any
+
 from Laberinto_Juego.LaberintoBuilder import LaberintoBuilder
 
 class Director:
     def __init__(self):
         self.builder = LaberintoBuilder()
-        self.dict = {}
+        self.dict = {'Diccionario': 'Vacio'}
 
     def procesarArchivo(self, archivoJson):
         self.leerArchivo(archivoJson)
-        self.iniBuilder()
         self.fabricarLaberinto()
         self.fabricarJuego()
         self.fabricarBicho()
 
-    def leerArchivo(self, archivoJson):
+    def leerArchivo(self, archivoJson) -> Any:
         try:
             # Abrir el archivo JSON y cargar su contenido en self.dict
             with open(archivoJson, 'r', encoding='utf-8') as file:
@@ -26,37 +27,22 @@ class Director:
     def fabricarLaberinto(self):
         self.builder.fabricarLaberinto
 
-        #(self dict at:'laberinto') do:[:each | self fabricarLaberintoRecursivo:each en:'root'].
-        #(self dict at:'puertas' do:[each |
-        #        self.builder fabricarPuertasL1:(each at:1) or1:(each at:2) n2:(each at:3) or2:(each at:4)].
-
-    def fabricarLaberintoRecursivo(self): #fabricarLaberintoRecursivo:unDic en:padre
-        #(unDir at:'tipo')='habitacion' ifTrue:
-        pass
-
-    def fabricarHabitacion(self, unNum):
-        habitacion = None
-    def __str__(self):
-        return "El director procesa el fichero.json y aparte se encarga del proceso de creación."
-
-    def fabricarNorte(self):
-        pass
-
-    def fabricarEste(self):
-        pass
-
-    def fabricarOeste(self):
-        pass
-
-    def fabricarPared(self):
-        pass
-
-    def iniBuilder(self):
-        pass
-
     def fabricarJuego(self):
         pass
 
     def fabricarBicho(self):
-        #(self)
         pass
+
+    def fabricarLaberintoRecursivo(self, each, padre): #fabricarLaberintoRecursivo:unDic en:padre
+        #(unDir at:'tipo')='habitacion' ifTrue:
+        print(each)
+        if each['tipo']=='habitacion':
+            con=self.builder.fabricarHabitacion(each['num'])
+        if each['tipo']=='tunel':
+            self.builder.fabricarTunelEn(padre)
+        if 'hijos'in each.keys():
+            for cadaUno in each['hijos']:
+                self.fabricarLaberintoRecursivo(cadaUno,con)
+
+    def __str__(self):
+        return "Soy el director que procesa el fichero Json y aparte se encarga del proceso de creación."

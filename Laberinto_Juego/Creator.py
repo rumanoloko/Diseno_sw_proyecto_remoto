@@ -21,12 +21,11 @@ class Creator:
         habitacion.ponerElementoEnOrientacion(paredEste, Este())
         habitacion.ponerElementoEnOrientacion(paredOeste, Oeste())
 
-        """
+
         habitacion.norte = self.fabricarPared()
         habitacion.sur = self.fabricarPared()
         habitacion.este = self.fabricarPared()
         habitacion.oeste = self.fabricarPared()
-        """
         return habitacion
 
     def fabricarFormaCuadrada(self):
@@ -36,11 +35,6 @@ class Creator:
         forma.agregarOrientacion(self.fabricarEste())
         forma.agregarOrientacion(self.fabricarOeste())
         return forma
-    def fabricarLaberinto2FM(self):
-        pass
-
-    def fabricarLaberinto2FMD(self):
-        pass
 
     def fabricarPuerta(self) -> Puerta:
         return Puerta()

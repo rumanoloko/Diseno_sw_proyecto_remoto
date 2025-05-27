@@ -1,0 +1,32 @@
+{
+  "laberinto": [
+    {"tipo": "habitacion",
+      "num": [0,0],
+      "hijos": []
+    },
+    {"tipo": "habitacion",
+      "num": [0,1],
+      "hijos": []
+    },
+    {"tipo": "habitacion",
+      "num": [1,1],
+      "hijos": []
+    },
+    {"tipo": "habitacion",
+      "num": [1,0],
+      "hijos": []
+    }
+  ],
+  "puertas": [
+    [[0,0], "Este", [0,1], "Oeste"],
+    [[0,1], "Norte", [1,1], "Sur"],
+    [[1,1], "Oeste", [1,0], "Este"],
+    [[1,0], "Norte", [0,0], "Sur"]
+  ],
+  "bichos": [
+    {"Modo":"BichoAgresivo", "posicion":[0,0]},
+    {"Modo":"BichoAgresivo", "posicion":[0,1]},
+    {"Modo":"BichoRerezoso", "posicion":[1,0]},
+    {"Modo":"BichoPerezoso", "posicion":[1,1]}
+  ]
+}

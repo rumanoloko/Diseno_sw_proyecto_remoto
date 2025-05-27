@@ -1,4 +1,6 @@
 from typing import TYPE_CHECKING
+
+#from Laberinto_Juego.Creator import Creator
 #from Laberinto_Juego.Ente import Bicho
 from Laberinto_Juego.Habitacion import Habitacion
 from Laberinto_Juego.Contenedor import Contenedor
@@ -106,14 +108,7 @@ class Juego:
         hab4.ponerElementoEnOrientacion(puerta2, Norte())
         hab4.ponerElementoEnOrientacion(puerta3, Oeste())
 
-
-
-
-
-
-
         laberinto = Laberinto()
-        #laberinto.hijos = laberinto.hijos + [hab1, hab2, hab3, hab4]
         laberinto.añadirHijo(hab1)
         laberinto.añadirHijo(hab2)
         laberinto.añadirHijo(hab3)

@@ -26,7 +26,7 @@
   "bichos": [
     {"Modo":"BichoAgresivo", "posicion":[0,0]},
     {"Modo":"BichoAgresivo", "posicion":[0,1]},
-    {"Modo":"BichoRerezoso", "posicion":[1,0]},
+    {"Modo":"BichoPerezoso", "posicion":[1,0]},
     {"Modo":"BichoPerezoso", "posicion":[1,1]}
   ]
 }

@@ -1,5 +1,6 @@
 #from Laberinto_Juego.Juego import Juego
 import copy
+from sys import exception
 
 from Laberinto_Juego.BichoAgresivo import BichoAgresivo
 from Laberinto_Juego.BichoPerezoso import BichoPerezoso
@@ -19,13 +20,41 @@ class LaberintoBuilder:
         self.laberinto = None
         self.juego = None
 
-    def fabricarJuego(self):
+    def fabricarJuego(self, diccionario):
         self.juego = Juego()
+        self.juego.laberinto, self.juego.bichos = self.fabricarLaberinto(diccionario)
         self.juego.prototipo = self.laberinto
         self.juego.laberinto = copy.deepcopy(self.juego.prototipo)
 
-    def fabricarLaberinto(self):
-        self.laberinto = Laberinto()
+    def fabricarLaberinto(self, diccionario):
+        habitaciones, puertas, bichos = {},[],[]
+
+        for habitacion in diccionario['laberinto']:
+            hab = self.fabricarHabitacion(habitacion['num'])
+            habitaciones[tuple(habitacion['num'])] = hab
+
+        for bicho in diccionario['bichos']:
+            bich = self.fabricarBicho(bicho['Modo'], bicho['posicion'])
+            print("Habitacion a asignar al bicho", habitaciones[tuple(bicho['posicion'])])
+            print("Bicho creado", bich)
+            bich.posicion = habitaciones[tuple(bicho['posicion'])]
+            habitaciones[tuple(bicho['posicion'])].añadirHijo(bich)
+            bichos.append(bich)
+
+        for puerta in diccionario['puertas']:
+            porta = self.fabricarPuerta()
+            porta.lado1 = habitaciones[tuple(puerta[0])]
+            porta.lado2 = habitaciones[tuple(puerta[2])]
+            habitaciones[tuple(puerta[0])].añadir(puerta[1], porta)
+            habitaciones[tuple(puerta[2])].añadir(puerta[3], porta)
+            porta.abierta = True
+            puertas.append(porta)
+
+        laberinto = Laberinto()
+        for key, value in habitaciones.items():
+            laberinto.añadirHijo(value)
+
+        return laberinto, bichos
 
     """
     def fabricarHabitacion(self, num):
@@ -150,16 +179,19 @@ class LaberintoBuilder:
         tunel = Tunel(None)
         unCont.agregar_hijo(tunel)
 
-    def fabricarBicho(self, modo, posicion):
+    def fabricarBicho(self, modo, posicion) -> Bicho:
         bicho = Bicho()
-        if modo == 'Agresivo':
+        if modo == 'BichoAgresivo':
             bicho.iniAgresivo()
-        if modo == 'Perezoso':
+        elif modo == 'BichoPerezoso':
             bicho.iniPerezoso()
-        hab = self.laberinto.obtenerHabitacion(posicion)
-        hab.entrar(bicho)
-        bicho.posicion = hab
-        self.juego.agregar_bicho(bicho)
+        else:
+            raise exception("Se paso un string de moto de bicho que no existe")
+        #hab = self.laberinto.obtenerHabitacion(posicion)
+        #hab.entrar(bicho)
+        #bicho.posicion = hab
+        #self.juego.agregar_bicho(bicho)
+        return bicho
 
 
 

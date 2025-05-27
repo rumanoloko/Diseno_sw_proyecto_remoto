@@ -10,9 +10,9 @@ class Director:
 
     def procesarArchivo(self, archivoJson):
         self.leerArchivo(archivoJson)
-        self.fabricarLaberinto()
+        #self.fabricarLaberinto()
         self.fabricarJuego()
-        self.fabricarBicho()
+        #self.fabricarBicho()
 
     def leerArchivo(self, archivoJson) -> Any:
         try:
@@ -25,10 +25,10 @@ class Director:
             print(f"Error al decodificar el archivo JSON {archivoJson}.")
 
     def fabricarLaberinto(self):
-        self.builder.fabricarLaberinto
+        self.builder.fabricarLaberinto(self.dict)
 
     def fabricarJuego(self):
-        pass
+        self.builder.fabricarJuego(self.dict)
 
     def fabricarBicho(self):
         pass

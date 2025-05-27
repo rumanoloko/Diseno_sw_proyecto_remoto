@@ -112,7 +112,7 @@ class Ente:
 class Bicho(Ente):
     _numero = 0
     _lock = threading.Lock()  # Lock global para sincronizar la salida
-    def __init__(self, vidas: int = 5, modo=None, poder: int = 1, posicion: Habitacion = None) -> None:
+    def __init__(self, modo=None, posicion: Habitacion = None, vidas: int = 5, poder: int = 1) -> None:
         super().__init__(vidas, poder, posicion)
         self._numero = Bicho._numero
         Bicho._numero += 1
@@ -189,9 +189,9 @@ class Bicho(Ente):
         self._modo = BichoPerezoso()
         self._poder = 1
 
-    def recorrer(self):
+    def recorrer(self, func):
         with Bicho._lock:
-            print(self)
+            func(self)
 
     def __str__(self):
         return self._modo.__str__()

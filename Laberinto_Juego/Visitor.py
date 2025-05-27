@@ -1,6 +1,4 @@
 from Laberinto_Juego import Habitacion, Pared, Puerta, Bomba, Tunel
-
-
 class Visitor:
     def visitarHabitacion(self, habitacion: Habitacion) -> None:
         pass

@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
+from Laberinto_Juego.ElementoMapa import ElementoMapa
 
-class Pared(ABC):
+
+class Pared(ElementoMapa):
     def __init__(self):
         pass
 
@@ -9,3 +11,6 @@ class Pared(ABC):
 
     def entrar(self):
         print("Orco, chocaste con una pared")
+
+    def recorrer(self, func):
+        func(self.__str__())

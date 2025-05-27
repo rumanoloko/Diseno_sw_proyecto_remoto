@@ -1,5 +1,6 @@
 import json
 from Laberinto_Juego.LaberintoBuilder import LaberintoBuilder
+
 class Director:
     def __init__(self):
         self.builder = LaberintoBuilder()
@@ -7,10 +8,10 @@ class Director:
 
     def procesarArchivo(self, archivoJson):
         self.leerArchivo(archivoJson)
-        self.iniBuilder
-        self.fabricarLaberinto
-        self.fabricarJuego
-        self.fabricarBicho
+        self.iniBuilder()
+        self.fabricarLaberinto()
+        self.fabricarJuego()
+        self.fabricarBicho()
 
     def leerArchivo(self, archivoJson):
         try:
@@ -29,12 +30,14 @@ class Director:
         #(self dict at:'puertas' do:[each |
         #        self.builder fabricarPuertasL1:(each at:1) or1:(each at:2) n2:(each at:3) or2:(each at:4)].
 
-    def fabricarFaberintoRecursivo(self): #fabricarLaberintoRecursivo:unDic en:padre
+    def fabricarLaberintoRecursivo(self): #fabricarLaberintoRecursivo:unDic en:padre
         #(unDir at:'tipo')='habitacion' ifTrue:
         pass
 
     def fabricarHabitacion(self, unNum):
         habitacion = None
+    def __str__(self):
+        return "El director procesa el fichero.json y aparte se encarga del proceso de creación."
 
     def fabricarNorte(self):
         pass
@@ -57,8 +60,3 @@ class Director:
     def fabricarBicho(self):
         #(self)
         pass
-
-
-
-    def __str__(self):
-        return "El director procesa el fichero.json y aparte se encarga del proceso de creación."

@@ -27,6 +27,6 @@
     {"Modo":"BichoAgresivo", "posicion":1},
     {"Modo":"BichoAgresivo", "posicion":3},
     {"Modo":"BichoRerezoso", "posicion":2},
-    {"Modo":"BichoPerezoso", "posicion":4},
+    {"Modo":"BichoPerezoso", "posicion":4}
   ]
 }

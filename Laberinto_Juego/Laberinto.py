@@ -33,8 +33,8 @@ class Laberinto(Contenedor):
         return False
 
     @override
-    def recorrer(self):
-        print("Recorriendo")
-        print(self.__str__())
+    def recorrer(self, func):
+        #print("Recorriendo")
+        func(self.__str__())
         for x in self._hijos:
-            x.recorrer()
+            x.recorrer(func)

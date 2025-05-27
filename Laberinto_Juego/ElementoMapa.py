@@ -6,3 +6,7 @@ class ElementoMapa(ABC):
     @abstractmethod
     def entrar(self) -> None:
         pass
+
+    @abstractmethod
+    def recorrer(self, func):
+        pass

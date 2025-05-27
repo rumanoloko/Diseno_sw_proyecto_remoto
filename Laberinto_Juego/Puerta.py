@@ -1,6 +1,10 @@
 from Laberinto_Juego import Habitacion
 from typing import Any
-class Puerta:
+
+from Laberinto_Juego.ElementoMapa import ElementoMapa
+
+
+class Puerta(ElementoMapa):
 
     def __init__(self, estado :bool = False):
         self._abierta = estado
@@ -41,3 +45,6 @@ class Puerta:
                 alguien.posicion = self._lado1
         else:
             print('Chocaste con una puerta')
+
+    def recorrer(self, func):
+        func(self.__str__())

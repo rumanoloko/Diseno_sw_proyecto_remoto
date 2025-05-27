@@ -5,6 +5,7 @@ from Laberinto_Juego.Contenedor import Contenedor
 from Laberinto_Juego import Laberinto
 from Laberinto_Juego.Pared import Pared
 from Laberinto_Juego.Puerta import Puerta
+from Laberinto_Juego.Orientacion import Orientacion, Norte, Sur, Este, Oeste
 
 if TYPE_CHECKING:
     from Laberinto_Juego.Ente import Bicho
@@ -20,6 +21,8 @@ class Juego:
     def __init__(self):
         self.laberinto = Laberinto()
         self.bichos = []
+        self.personaje = None
+
 
     def crearLaberinto2Habitaciones(self) -> None:
         self.hab1 = Habitacion(1)
@@ -56,10 +59,10 @@ class Juego:
         return laberinto
 
     def crearLaberinto4Hab4BichosFM(self, unFM = None) -> tuple():
-        hab1 = unFM.fabricarHabitacion(1)
-        hab2 = unFM.fabricarHabitacion(2)
-        hab3 = unFM.fabricarHabitacion(3)
-        hab4 = unFM.fabricarHabitacion(4)
+        hab1 = unFM.fabricarHabitacion([0,0])
+        hab2 = unFM.fabricarHabitacion([0,1])
+        hab3 = unFM.fabricarHabitacion([1,0])
+        hab4 = unFM.fabricarHabitacion([1,1])
         puerta1 = unFM.fabricarPuerta()
         puerta2 = unFM.fabricarPuerta()
         puerta3 = unFM.fabricarPuerta()
@@ -93,6 +96,21 @@ class Juego:
         puerta4.lado2 = hab1
         hab3.norte= puerta4
         hab1.sur = puerta4
+
+        hab1.ponerElementoEnOrientacion(puerta1, Este())
+        hab1.ponerElementoEnOrientacion(puerta4, Sur())
+        hab3.ponerElementoEnOrientacion(puerta3, Este())
+        hab3.ponerElementoEnOrientacion(puerta4, Norte())
+        hab2.ponerElementoEnOrientacion(puerta1, Oeste())
+        hab2.ponerElementoEnOrientacion(puerta2, Sur())
+        hab4.ponerElementoEnOrientacion(puerta2, Norte())
+        hab4.ponerElementoEnOrientacion(puerta3, Oeste())
+
+
+
+
+
+
 
         laberinto = Laberinto()
         #laberinto.hijos = laberinto.hijos + [hab1, hab2, hab3, hab4]
@@ -132,14 +150,7 @@ class Juego:
 
     def buscarPersonaje(self, unBicho):
         pass
-    #si posicionPersonaje == posicionBicho -> self person esAtacadoUnBicho:unBicho
-    # juego crearLaberinto2HabitacionesFM: creator.
-    #creatorB:= CreatorB.
-    #juego := creatorB crearJuego
-    #juego crearLaberinto2HabitacionesFM:creatorB
-    #pared := creatorB fabricarPared
-    #CreatorB sobreescribe el metodo de su clase padre crearPared
-    #
+
     def gestionBichos(self):
         pass
 
@@ -153,75 +164,3 @@ class Juego:
         else:
             pass
             #raise error
-
-
-if __name__ == '__main__':
-    from Laberinto_Juego.Ente import Personaje, Bicho
-    from Laberinto_Juego.Creator import Creator
-    juego = Juego()
-    #ba = Bicho(5, BichoAgresivo, 5, None)
-    #print(ba.esAgresivo())
-    #print(ba.esPerezoso())
-    creator = Creator()
-    laber, bichos= juego.crearLaberinto4Hab4BichosFM(creator)
-    print("Hola")
-    print(laber)
-    print(laber)
-    for _ in bichos:
-        print(_._modo)
-        #print(_.esAgresivo())
-        #print(_.esPerezoso())
-        print(_.posicion)
-    print("Laberinto")
-    for hijo in laber.hijos:
-        print(hijo)
-    #print(laber.obtenerHabitacion(0).este)
-    #print(laber.obtenerHabitacion(0).este.abierta)
-    #print(laber.obtenerHabitacion(0).este.abierta)
-    #print(laber.obtenerHabitacion(0).este)
-    #print(laber.obtenerHabitacion(0).este.abierta)
-
-    #print("\n\n\n")
-    #print(laber.obtenerHabitacion(0).padre)
-    #print(laber.obtenerHabitacion(1).padre)
-    #print(laber.obtenerHabitacion(2).padre)
-    #print(laber.obtenerHabitacion(3).padre)
-    print()
-    print("Iterador")
-    print(laber.recorrer())
-    juego.agregarPersonaje("Pepe")
-    #print(bichos[0].posicion)
-    #print(bichos[0].camina())
-    bichos[0].start()
-    bichos[1].start()
-    bichos[2].start()
-    bichos[3].start()
-    #juego lanzarBichos.
-    #juego acabarBichos.
-    #juego agregarPersonaje:'Pepe'.
-    #person:= juego person.
-    #person irAlNorte.
-    #person irAlSur.
-    #person irAlEste.
-    #person isAlOeste.
-    #juego abrirPuertas.
-    #juego cerrarPuertas.
-    #juego lanzarBichos.
-    #juego terminarBichos.
-
-
-
-
-
-    #laber, vecBichos = x[0], x[1]
-    #juego.bichos = juego.bichos+vecBichos
-
-
-#hab orientaciones add:self fabricarNorte; add:self fabricarSur; add:self fabricarEste; add:self fabricarOeste
-#hab orientaciones do[:each | hab ponerEnOr:each elemento: self fabricarPared].
-#juego laberinto recorrer:[each | Trsnacript show:each printString; cr].
-#juego laberinto recorrer:[each | each esPuerta ifTrue:[each abrir]].
-#juego laberinto recorrer:[each | each esPuerta ifTrue:[each cerrar]].
-#juego abrirPuertas. 'juego>>abrirPuerta
-    #self laberinto abrirPuerta
-#juego cerrarPuertas

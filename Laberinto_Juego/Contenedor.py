@@ -9,6 +9,7 @@ class Contenedor(ElementoMapa):
         super().__init__()
         self._hijos: List[Any] = []
         self._padre: Contenedor | None = None  # Puede ser Contenedor o None
+        self.forma = None
 
     def añadirHijo(self, hijo: Any) -> bool:
         if hijo in self.hijos:
@@ -23,8 +24,38 @@ class Contenedor(ElementoMapa):
             return True
         return False
 
+    @abstractmethod
+    def recorrer(self, func):
+        func(self)
+        for hijo in self.hijos:
+            hijo.recorrer(func)
+
+        self.forma.recorer(func)
+
+    def aceptar(self, visitante):
+        self.aceptarVisitante(visitante)
+        for hijo in self.hijos:
+            hijo.aceptar(visitante)
+        self.forma.aceptar(visitante)
+
+    def caminarRandom(self, bicho):
+        self.forma.caminarAleatorio(bicho)
+
+    def agregarOrientacion(self, orientacion):
+        self.forma.agregarOrientacion(orientacion)
+
+    def eliminarOrientacion(self, orientacion):
+        self.forma.eliminarOrientacion(orientacion)
+
+    def ponerElementoEnOrientacion(self, elemento, orientacion):
+        self.forma.ponerElementoEnOrientacion(elemento, orientacion)
+
     def __str__(self) -> str:
         return "Es un elemento mapa que tiene hijos"
+
+
+
+
 
     @property
     def hijos(self) -> List[ElementoMapa]:
@@ -43,14 +74,3 @@ class Contenedor(ElementoMapa):
         if padre is not None and not isinstance(padre, Contenedor):
             raise TypeError("padre debe ser un objeto Contenedor o None")
         self._padre = padre
-
-    @abstractmethod
-    def recorrer(self):
-        pass
-
-    def __str__(self) -> None:
-        return "Este es un contenedor"
-
-
-    def caminar(self):
-        pass

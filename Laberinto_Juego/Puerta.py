@@ -32,7 +32,7 @@ class Puerta(ElementoMapa):
         self._lado2 = lado
 
     def __str__(self):
-        return "La puerta está abierta" if self.abierta else "La puerta está cerrada"
+        return f"Conecta {self.lado1} con {self.lado2} y está abierta" if self.abierta else "La puerta está cerrada"
 
     def esPuerta(self):
         return True

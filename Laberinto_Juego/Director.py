@@ -12,7 +12,9 @@ class Director:
         self.leerArchivo(archivoJson)
         #self.fabricarLaberinto()
         self.juego = self.fabricarJuego()
+        #self.juego.bichos[0].start()
         #self.fabricarBicho()
+        return self.juego
 
     def leerArchivo(self, archivoJson) -> Any:
         try:
@@ -31,7 +33,7 @@ class Director:
         return self.builder.fabricarJuego(self.dict)
 
     def fabricarBicho(self):
-        pass
+        return self.builder.fabricarBicho(self.dict)
 
     def fabricarLaberintoRecursivo(self, each, padre): #fabricarLaberintoRecursivo:unDic en:padre
         #(unDir at:'tipo')='habitacion' ifTrue:

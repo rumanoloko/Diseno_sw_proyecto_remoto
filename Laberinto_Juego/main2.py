@@ -2,10 +2,12 @@ from Laberinto_Juego.Director import Director
 from Laberinto_Juego.Juego import Juego
 
 if __name__ == '__main__':
+    from Laberinto_Juego.Ente import Vivo
     director = Director()
     #juego = director.procesarArchivo(r"C:\Users\pasat\PycharmProjects\Diseño_sw_proyecto\Laberinto_Juego\LaberintoJson\lab4hab4Bichos.json")
     juego = director.procesarArchivo(r"C:\Users\pasat\PycharmProjects\Diseño_sw_proyecto\Laberinto_Juego\LaberintoJson\lab16Hab8Bichos.json")
-    juego.agregarPersonaje("Pepe")
-    juego.laberinto.hijos[0].start
-    #juego.laberinto.recorrer(print)
-    #print(juego.laberinto.hijos)
+    juego.agregarPersonaje("Petru-Vlad Pasat", 10, 4, juego.laberinto.hijos[0], juego, Vivo())
+    #print(juego.laberinto.hijos[0])
+    print(juego.bichos[0])
+    print(juego.personaje)
+    juego.iniciarJuego()

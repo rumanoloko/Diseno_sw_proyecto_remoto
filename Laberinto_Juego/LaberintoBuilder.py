@@ -23,8 +23,9 @@ class LaberintoBuilder:
     def fabricarJuego(self, diccionario):
         self.juego = Juego()
         self.juego.laberinto, self.juego.bichos = self.fabricarLaberinto(diccionario)
-        self.juego.prototipo = self.laberinto
+        #self.juego.prototipo = self.laberinto
         #self.juego.laberinto = copy.deepcopy(self.juego.prototipo)
+        """
         print("EL BICHO =>", self.juego.bichos[0].posicion)
         print("HABITACION [0,0]", self.juego.laberinto.hijos[0].sur)
         print("HABITACION [0,0]", self.juego.laberinto.hijos[0].este)
@@ -46,6 +47,7 @@ class LaberintoBuilder:
         print("HABITACION [1,0]", self.juego.laberinto.hijos[3].oeste)
         print("HABITACION [1,0]", self.juego.laberinto.hijos[3].norte)
         self.juego.bichos[0].start()
+        """
         #for bicho in self.juego.bichos:
             #bicho.start()
         return self.juego
@@ -76,6 +78,16 @@ class LaberintoBuilder:
             #porta.abierta = True
             puertas.append(porta)
 
+        """
+        print("\n\n\n\n\n")
+        for kay, value in habitaciones.items():
+            print(f"Habitacion {value.numero}")
+            print(value.sur)
+            print(value.norte)
+            print(value.este)
+            print(value.oeste)
+            print("\n\n\n")
+        """
         laberinto = Laberinto()
         for key, value in habitaciones.items():
             laberinto.añadirHijo(value)

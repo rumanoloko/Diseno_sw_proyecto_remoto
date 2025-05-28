@@ -55,7 +55,7 @@ class Ente:
         from Laberinto_Juego.Juego import Juego
     """
 
-    def __init__(self, vidas: int = None, poder: int = None, posicion:Habitacion = None, juego:Juego = None, estadoEnte: EstadoEnte = None) -> None:
+    def __init__(self, vidas: int, poder: int, posicion:Habitacion=None, juego:Juego = None, estadoEnte: EstadoEnte = Vivo()) -> None:
         self._vidas = vidas
         self._poder = poder
         self._posicion = posicion
@@ -170,11 +170,16 @@ class Bicho(Ente):
 
         with Bicho._lock:
             if isinstance(neo_posicion, Pared):
-                print(f"El subnormal del {self} chocó con una pared en {self._posicion}")
+                #print(f"El subnormal del {self} chocó con una pared en {self._posicion}")
+                print(f"{self} está en {self._posicion}")
             elif isinstance(neo_posicion, Puerta):
                 if neo_posicion.abierta:
-                    self.posicion = neo_posicion.lado2
-                    print(f"{self} ahora está en {neo_posicion.lado2}")
+                    self.posicion.eliminarHijo(self)
+                    if neo_posicion.lado1.numero == self.posicion.numero:
+                        self.posicion = neo_posicion.lado2
+                    else:
+                        self.posicion = neo_posicion.lado1
+                    print(f"{self} está en {self._posicion}")
                 else:
                     print(f"{self} no puede avanzar por la puerta cerrada en {self._posicion}.")
             else:
@@ -198,7 +203,7 @@ class Bicho(Ente):
 
 class Personaje(Ente):
     from Laberinto_Juego.Juego import Juego
-    def __init__(self, nombre: string, vidas: int = None, poder: int = None, posicion:Habitacion = None, juego:Juego = None, estadoEnte: EstadoEnte = None) -> None:
+    def __init__(self, nombre: string, vidas: int = 10, poder: int = 4, posicion:Habitacion = None, juego:Juego = None, estadoEnte: EstadoEnte = Vivo()) -> None:
         super().__init__(vidas, poder, posicion, juego, estadoEnte)
         self._nombre = nombre
 
@@ -210,5 +215,8 @@ class Personaje(Ente):
 
     def __str__(self):
         return self._nombre
+
+    def start(self):
+        print("Here we go again")
 
 

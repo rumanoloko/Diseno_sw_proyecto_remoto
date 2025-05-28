@@ -25,6 +25,15 @@ class Juego:
         self.bichos = []
         self.personaje = None
 
+    def iniciarJuego(self):
+        for bicho in self.bichos:
+            pass
+            #bicho.start()
+        self.personaje.start()
+        print(self.personaje.posicion)
+        print(self.personaje.vidas)
+        print(self.personaje.poder)
+        print(self.personaje.estadoEnte.vivir(self.personaje))
 
     def crearLaberinto2Habitaciones(self) -> None:
         self.hab1 = Habitacion(1)
@@ -41,9 +50,11 @@ class Juego:
         self.puerta.lado1 = self.hab1
         self.puerta.lado2 = self.hab2
 
-    def agregarPersonaje(self, nombre):
+    def agregarPersonaje(self, nombre, vidas, poder, posicion, juego, estadoEnte):
         from Laberinto_Juego.Ente import Personaje
-        self.personaje = Personaje(nombre)
+        #"Petru-Vlad Pasat", 10, 4, juego.laberinto.hijos[0], juego, Vivo()
+        self.personaje = Personaje(nombre, vidas, poder, posicion, juego, estadoEnte)
+
 
 
     def crearLaberinto2HabitacionesFM(self, unFM):

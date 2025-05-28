@@ -23,7 +23,8 @@
     {"lado1": [0,2], "direccion1": "Este", "lado2": [0,3], "direccion2": "Oeste", "abierta": true},
 
     {"lado1": [0,0], "direccion1": "Sur", "lado2": [1,0], "direccion2": "Norte", "abierta": true},
-    {"lado1": [1,0], "direccion1": "Norte", "lado2": [0,0], "direccion2": "Sur", "abierta": true},
+    {"lado1": [0,2], "direccion1": "Sur", "lado2": [1,2], "direccion2": "Norte", "abierta": true},
+    {"lado1": [0,3], "direccion1": "Sur", "lado2": [1,3], "direccion2": "Norte", "abierta": false},
 
     {"lado1": [1,0], "direccion1": "Este", "lado2": [1,1], "direccion2": "Oeste", "abierta": true},
     {"lado1": [1,1], "direccion1": "Este", "lado2": [1,2], "direccion2": "Oeste", "abierta": true},

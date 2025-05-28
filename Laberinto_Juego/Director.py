@@ -7,11 +7,11 @@ class Director:
     def __init__(self):
         self.builder = LaberintoBuilder()
         self.dict = {'Diccionario': 'Vacio'}
-
+        self.juego = None
     def procesarArchivo(self, archivoJson):
         self.leerArchivo(archivoJson)
         #self.fabricarLaberinto()
-        self.fabricarJuego()
+        self.juego = self.fabricarJuego()
         #self.fabricarBicho()
 
     def leerArchivo(self, archivoJson) -> Any:
@@ -28,7 +28,7 @@ class Director:
         self.builder.fabricarLaberinto(self.dict)
 
     def fabricarJuego(self):
-        self.builder.fabricarJuego(self.dict)
+        return self.builder.fabricarJuego(self.dict)
 
     def fabricarBicho(self):
         pass

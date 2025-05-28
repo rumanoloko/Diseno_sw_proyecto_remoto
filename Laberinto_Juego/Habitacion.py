@@ -51,15 +51,18 @@ class Habitacion(Contenedor):
     @override
     def añadir(self, unaHabitacion) -> None:
         self.habitaciones.append(unaHabitacion)
+
     def añadir(self, orientacion, elemento):
         if orientacion == "Sur":
             self._sur = elemento
-        if orientacion == "Norte":
+        elif orientacion == "Norte":
             self._norte = elemento
-        if orientacion == "Este":
+        elif orientacion == "Este":
             self._este = elemento
-        if orientacion == "Oeste":
+        elif orientacion == "Oeste":
             self._oeste = elemento
+        else:
+            raise Exception("Se introdujo una orientacion no valida en una habitacion")
     @override
     def entrar(self) -> None:
         pass

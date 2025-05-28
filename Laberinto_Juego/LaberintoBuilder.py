@@ -24,7 +24,31 @@ class LaberintoBuilder:
         self.juego = Juego()
         self.juego.laberinto, self.juego.bichos = self.fabricarLaberinto(diccionario)
         self.juego.prototipo = self.laberinto
-        self.juego.laberinto = copy.deepcopy(self.juego.prototipo)
+        #self.juego.laberinto = copy.deepcopy(self.juego.prototipo)
+        print("EL BICHO =>", self.juego.bichos[0].posicion)
+        print("HABITACION [0,0]", self.juego.laberinto.hijos[0].sur)
+        print("HABITACION [0,0]", self.juego.laberinto.hijos[0].este)
+        print("HABITACION [0,0]", self.juego.laberinto.hijos[0].oeste)
+        print("HABITACION [0,0]", self.juego.laberinto.hijos[0].norte)
+
+        print("HABITACION [0,1]", self.juego.laberinto.hijos[1].sur)
+        print("HABITACION [0,1]", self.juego.laberinto.hijos[1].este)
+        print("HABITACION [0,1]", self.juego.laberinto.hijos[1].oeste)
+        print("HABITACION [0,1]", self.juego.laberinto.hijos[1].norte)
+
+        print("HABITACION [1,1]", self.juego.laberinto.hijos[2].sur)
+        print("HABITACION [1,1]", self.juego.laberinto.hijos[2].este)
+        print("HABITACION [1,1]", self.juego.laberinto.hijos[2].oeste)
+        print("HABITACION [1,1]", self.juego.laberinto.hijos[2].norte)
+
+        print("HABITACION [1,0]", self.juego.laberinto.hijos[3].sur)
+        print("HABITACION [1,0]", self.juego.laberinto.hijos[3].este)
+        print("HABITACION [1,0]", self.juego.laberinto.hijos[3].oeste)
+        print("HABITACION [1,0]", self.juego.laberinto.hijos[3].norte)
+        self.juego.bichos[0].start()
+        #for bicho in self.juego.bichos:
+            #bicho.start()
+        return self.juego
 
     def fabricarLaberinto(self, diccionario):
         habitaciones, puertas, bichos = {},[],[]
@@ -34,7 +58,7 @@ class LaberintoBuilder:
             habitaciones[tuple(habitacion['num'])] = hab
 
         for bicho in diccionario['bichos']:
-            bich = self.fabricarBicho(bicho['Modo'], bicho['posicion'])
+            bich = self.fabricarBicho(bicho['modo'], bicho['posicion'])
             print("Habitacion a asignar al bicho", habitaciones[tuple(bicho['posicion'])])
             print("Bicho creado", bich)
             bich.posicion = habitaciones[tuple(bicho['posicion'])]
@@ -42,12 +66,14 @@ class LaberintoBuilder:
             bichos.append(bich)
 
         for puerta in diccionario['puertas']:
+            print("IMPRIMIENDO PUERTA: => ",puerta)
             porta = self.fabricarPuerta()
-            porta.lado1 = habitaciones[tuple(puerta[0])]
-            porta.lado2 = habitaciones[tuple(puerta[2])]
-            habitaciones[tuple(puerta[0])].añadir(puerta[1], porta)
-            habitaciones[tuple(puerta[2])].añadir(puerta[3], porta)
-            porta.abierta = True
+            porta.lado1 = habitaciones[tuple(puerta['lado1'])]
+            porta.lado2 = habitaciones[tuple(puerta['lado2'])]
+            porta.abierta = puerta['abierta']
+            habitaciones[tuple(puerta['lado1'])].añadir(puerta['direccion1'], porta)
+            habitaciones[tuple(puerta['lado2'])].añadir(puerta['direccion2'], porta)
+            #porta.abierta = True
             puertas.append(porta)
 
         laberinto = Laberinto()

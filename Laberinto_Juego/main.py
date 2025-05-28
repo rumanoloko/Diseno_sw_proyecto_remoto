@@ -12,8 +12,8 @@ if __name__ == '__main__':
     juego.agregarPersonaje("Pepe")
 
     bichos[0].start()
-    bichos[1].start()
-    bichos[2].start()
-    bichos[3].start()
+    #bichos[1].start()
+    #bichos[2].start()
+    #bichos[3].start()
     juego.laberinto.recorrer(print)
     print(juego.laberinto.hijos)

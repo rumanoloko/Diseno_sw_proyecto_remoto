@@ -1,5 +1,6 @@
+import sys
 from typing import TYPE_CHECKING
-
+from Laberinto_Juego.HahitacionGUI import HabitacionGUI
 from Laberinto_Juego.Gui import Gui
 #from Laberinto_Juego.Creator import Creator
 #from Laberinto_Juego.Ente import Bicho
@@ -9,6 +10,9 @@ from Laberinto_Juego import Laberinto
 from Laberinto_Juego.Pared import Pared
 from Laberinto_Juego.Puerta import Puerta
 from Laberinto_Juego.Orientacion import Orientacion, Norte, Sur, Este, Oeste
+from PyQt6.QtWidgets import QApplication, QLabel, QMainWindow, QGridLayout, QWidget
+from PyQt6.QtGui import QKeyEvent
+from PyQt6.QtCore import Qt
 
 if TYPE_CHECKING:
     from Laberinto_Juego.Ente import Bicho
@@ -29,16 +33,22 @@ class Juego:
 
     def iniciarJuego(self, dict):
         #self.bichos[0].start()
-        self.gui.mostrar_laberinto(dict, self.personaje.posicion.numero)
+        #self.gui.mostrar_laberinto(dict, self.personaje.posicion.numero)
         for bicho in self.bichos:
             pass
             #bicho.start()
-        self.personaje.start()
+        #self.personaje.start()
+        self.iniciarInterfaz()
         #print(self.personaje.posicion)
         #print(self.personaje.vidas)
         #print(self.personaje.poder)
         #print(self.personaje.estadoEnte.vivir(self.personaje))
 
+    def iniciarInterfaz(self):
+        app = QApplication(sys.argv)
+        ventana = HabitacionGUI(self)
+        ventana.show()
+        sys.exit(app.exec())
 
     def agregarPersonaje(self, nombre, vidas, poder, posicion, juego, estadoEnte):
         from Laberinto_Juego.Ente import Personaje

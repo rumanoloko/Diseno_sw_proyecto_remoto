@@ -215,7 +215,7 @@ class Personaje(Ente):
         diccionarioOrientaciones['d'] = self.posicion.este
         diccionarioOrientaciones['a'] = self.posicion.oeste
 
-        if isinstance(diccionarioOrientaciones[tecla], Puerta) and diccionarioOrientaciones[tecla].abierta:
+        if tecla in diccionarioOrientaciones and isinstance(diccionarioOrientaciones[tecla], Puerta) and diccionarioOrientaciones[tecla].abierta:
             if diccionarioOrientaciones[tecla].lado1.numero == self.posicion.numero:
                 self.posicion = diccionarioOrientaciones[tecla].lado2
                 return True

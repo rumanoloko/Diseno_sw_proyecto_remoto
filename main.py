@@ -1,50 +1,86 @@
-import time
-from machine import Pin
-from pysense import Pysense
-from lps22hb import LPS22HB
-from si7021 import SI7021
-from light_sensor import LightSensor
-
-# Inicialización de los sensores
-pysense = Pysense()  # Inicializa la placa Pysense
-sensor_temp = SI7021(pysense)  # Sensor de temperatura y humedad
-sensor_pres = LPS22HB(pysense)  # Sensor de presión
-sensor_light = LightSensor(pysense)  # Sensor de luminosidad
-
-# LED conectado al pin 15 (puedes cambiarlo si es necesario)
-led = Pin(15, Pin.OUT)
-
-# Umbral de luminosidad
-luminosidad_umbral = 100  # 100 lux
+from PyQt6.QtWidgets import QApplication, QLabel, QMainWindow, QGridLayout, QWidget
+from PyQt6.QtGui import QKeyEvent
+from PyQt6.QtCore import Qt
+import sys
 
 
-# Función para obtener y mostrar los datos de los sensores
-def obtener_datos_sensores():
-    # Leer datos de los sensores
-    temperatura = sensor_temp.temperature()  # Temperatura en grados Celsius
-    humedad = sensor_temp.humidity()  # Humedad relativa
-    presion = sensor_pres.pressure()  # Presión atmosférica
-    luminosidad = sensor_light.light()  # Lux
+class Habitacion(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Habitación con Paredes Definidas")
+        self.setGeometry(200, 200, 450, 450)
 
-    # Mostrar los datos en la terminal
-    print(f"Temperatura: {temperatura} °C")
-    print(f"Humedad: {humedad} %")
-    print(f"Presión: {presion} hPa")
-    print(f"Luminosidad: {luminosidad} lux")
+        # Dimensiones de la habitación (6x6)
+        self.filas, self.columnas = 7,7
+        self.posicion_x, self.posicion_y = 2, 2  # Posición inicial del personaje
 
-    # Encender el LED si la luminosidad es menor que el umbral
-    if luminosidad < luminosidad_umbral:
-        print("Luminosidad baja, encendiendo LED...")
-        led.value(1)  # Encender el LED
-    else:
-        print("Luminosidad suficiente, apagando LED...")
-        led.value(0)  # Apagar el LED
+        # Crear widget central y el layout en cuadrícula
+        self.central_widget = QWidget(self)
+        self.grid_layout = QGridLayout(self.central_widget)
+        self.grid_layout.setSpacing(0)  # Sin espacios entre celdas
+        self.setCentralWidget(self.central_widget)
 
-    print("-------------------------------")
+        # Dibujar la habitación con paredes y salidas
+        self.dibujar_habitacion()
+
+    def dibujar_habitacion(self):
+        # Limpiar el grid layout
+        for i in reversed(range(self.grid_layout.count())):
+            self.grid_layout.itemAt(i).widget().setParent(None)
+
+        # Generar la estructura de la habitación
+        for x in range(self.filas):
+            for y in range(self.columnas):
+                # Definir los elementos visuales
+                if (x == 0 and y == 0):
+                    contenido = "╔"  # Esquina superior izquierda
+                elif (x == 0 and y == self.columnas - 1):
+                    contenido = "╗"  # Esquina superior derecha
+                elif (x == self.filas - 1 and y == 0):
+                    contenido = "╚"  # Esquina inferior izquierda
+                elif (x == self.filas - 1 and y == self.columnas - 1):
+                    contenido = "╝"  # Esquina inferior derecha
+                elif x == 0 or x == self.filas - 1:
+                    contenido = "═"  # Pared horizontal
+                elif y == 0 or y == self.columnas - 1:
+                    contenido = "║"  # Pared vertical
+                elif (x == 0 and y == self.columnas // 2) or (x == self.filas - 1 and y == self.columnas // 2):
+                    contenido = "▲" if x == 0 else "▼"  # Puerta superior/inferior
+                elif (y == 0 and x == self.filas // 2) or (y == self.columnas - 1 and x == self.filas // 2):
+                    contenido = "◄" if y == 0 else "►"  # Puerta izquierda/derecha
+                else:
+                    contenido = " "  # Espacio vacío dentro de la habitación
+
+                # Mostrar el personaje en el centro
+                if [x, y] == [self.posicion_x, self.posicion_y]:
+                    contenido = "🧍"
+
+                if [x, y] == [0,3] or [x, y] == [6,3] or [x, y] == [3,0] or [x, y] == [3,6]:
+                    contenido = " "
+
+                label = QLabel(contenido)
+                label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+                label.setStyleSheet("font-size: 35px; font-family: Courier;")  # Fuente monoespaciada
+                self.grid_layout.addWidget(label, x, y)
+
+    def keyPressEvent(self, event: QKeyEvent):
+        nueva_x, nueva_y = self.posicion_x, self.posicion_y
+
+        if event.key() == Qt.Key.Key_Up and nueva_x > 1:
+            nueva_x -= 1
+        elif event.key() == Qt.Key.Key_Down and nueva_x < self.filas - 2:
+            nueva_x += 1
+        elif event.key() == Qt.Key.Key_Left and nueva_y > 1:
+            nueva_y -= 1
+        elif event.key() == Qt.Key.Key_Right and nueva_y < self.columnas - 2:
+            nueva_y += 1
+
+        self.posicion_x, self.posicion_y = nueva_x, nueva_y
+        self.dibujar_habitacion()
 
 
-# Bucle principal para obtener datos cada 5 segundos
-while True:
-    obtener_datos_sensores()
-    time.sleep(5)  # Esperar 5 segundos antes de leer los sensores nuevamente
-
+# Ejecutar la aplicación
+app = QApplication(sys.argv)
+ventana = Habitacion()
+ventana.show()
+sys.exit(app.exec())

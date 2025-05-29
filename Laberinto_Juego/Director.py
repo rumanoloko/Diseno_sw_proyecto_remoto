@@ -2,7 +2,7 @@ import json
 from typing import Any
 
 from Laberinto_Juego.LaberintoBuilder import LaberintoBuilder
-
+from Laberinto_Juego.Gui import Gui
 class Director:
     def __init__(self):
         self.builder = LaberintoBuilder()
@@ -25,6 +25,9 @@ class Director:
             print(f"El archivo {archivoJson} no se encontró.")
         except json.JSONDecodeError:
             print(f"Error al decodificar el archivo JSON {archivoJson}.")
+
+    def fabricarGui(self):
+        self.builder.fabricarGui()
 
     def fabricarLaberinto(self):
         self.builder.fabricarLaberinto(self.dict)

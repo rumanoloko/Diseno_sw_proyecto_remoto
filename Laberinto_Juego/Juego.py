@@ -1,5 +1,6 @@
 from typing import TYPE_CHECKING
 
+from Laberinto_Juego.Gui import Gui
 #from Laberinto_Juego.Creator import Creator
 #from Laberinto_Juego.Ente import Bicho
 from Laberinto_Juego.Habitacion import Habitacion
@@ -24,52 +25,29 @@ class Juego:
         self.laberinto = Laberinto()
         self.bichos = []
         self.personaje = None
+        self.gui = Gui()
 
-    def iniciarJuego(self):
+    def iniciarJuego(self, dict):
+        #self.bichos[0].start()
+        self.gui.mostrar_laberinto(dict, self.personaje.posicion.numero)
         for bicho in self.bichos:
             pass
             #bicho.start()
         self.personaje.start()
-        print(self.personaje.posicion)
-        print(self.personaje.vidas)
-        print(self.personaje.poder)
-        print(self.personaje.estadoEnte.vivir(self.personaje))
+        #print(self.personaje.posicion)
+        #print(self.personaje.vidas)
+        #print(self.personaje.poder)
+        #print(self.personaje.estadoEnte.vivir(self.personaje))
 
-    def crearLaberinto2Habitaciones(self) -> None:
-        self.hab1 = Habitacion(1)
-        self.hab2 = Habitacion(2)
-        self.puerta = Puerta()
-        self.hab1.norte = Pared()
-        self.hab1.este = Pared()
-        self.hab1.oeste = Pared()
-        self.hab1.sur = self.puerta
-        self.hab2.sur = Pared()
-        self.hab2.este = Pared()
-        self.hab2.oeste = Pared()
-        self.hab2.norte = self.puerta
-        self.puerta.lado1 = self.hab1
-        self.puerta.lado2 = self.hab2
 
     def agregarPersonaje(self, nombre, vidas, poder, posicion, juego, estadoEnte):
         from Laberinto_Juego.Ente import Personaje
         #"Petru-Vlad Pasat", 10, 4, juego.laberinto.hijos[0], juego, Vivo()
         self.personaje = Personaje(nombre, vidas, poder, posicion, juego, estadoEnte)
 
-
-
-    def crearLaberinto2HabitacionesFM(self, unFM):
-        hab1 = unFM.fabricarHabitacion(1)
-        hab2 = unFM.fabricarHabitacion(2)
-        puerta = unFM.fabricarPuerta()
-        puerta.abierta = True
-        hab1.sur = puerta
-        hab2.norte = puerta
-        puerta.lado1 = hab1.sur
-        puerta.lado2 = hab2.norte
-        laberinto = Laberinto()
-        laberinto.agregarHabitacion(hab1)
-        laberinto.agregarHabitacion(hab2)
-        return laberinto
+    def actualizarPosicionJugador(self, tecla):
+        resultado = self.personaje.actualizarPosicion(tecla)
+        return resultado
 
     def crearLaberinto4Hab4BichosFM(self, unFM = None) -> tuple():
         hab1 = unFM.fabricarHabitacion([0,0])

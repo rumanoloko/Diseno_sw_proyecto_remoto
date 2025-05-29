@@ -9,13 +9,14 @@ from Laberinto_Juego.BichoPerezoso import BichoPerezoso
 from Laberinto_Juego import Tunel
 from Laberinto_Juego.Pared import Pared
 from Laberinto_Juego.Puerta import Puerta
-
+import keyboard
+import os, sys
 class EstadoEnte:
     def __init__(self)  -> None:
         pass
 
 
-    def vivir(self, ente) -> None:
+    def vivir(self, ente):
         pass
 
     def morir(self, ente) -> None:
@@ -27,7 +28,7 @@ class Vivo(EstadoEnte):
         super().__init__()
 
 
-    def vivir(self,ente) -> None:
+    def vivir(self,ente):
         print("El ente ya está vivo")
 
 
@@ -207,16 +208,45 @@ class Personaje(Ente):
         super().__init__(vidas, poder, posicion, juego, estadoEnte)
         self._nombre = nombre
 
+    def actualizarPosicionJugador(self, tecla):
+        diccionarioOrientaciones = {}
+        diccionarioOrientaciones['w'] = self.posicion.norte
+        diccionarioOrientaciones['s'] = self.posicion.sur
+        diccionarioOrientaciones['d'] = self.posicion.este
+        diccionarioOrientaciones['a'] = self.posicion.oeste
+
+        if isinstance(diccionarioOrientaciones[tecla], Puerta) and diccionarioOrientaciones[tecla].abierta:
+            if diccionarioOrientaciones[tecla].lado1.numero == self.posicion.numero:
+                self.posicion = diccionarioOrientaciones[tecla].lado2
+                return True
+            else:
+                self.posicion = diccionarioOrientaciones[tecla].lado1
+                return False
+        return False
+
     def clonarLabeinto(self, tunel: Tunel) -> None:
         tunel.puedeClonarLaberinto()
 
     def atacar(self):
         self.juego.buscarBicho()
 
+
     def __str__(self):
         return self._nombre
 
     def start(self):
+        contador = 0
         print("Here we go again")
+        while(isinstance(self.estadoEnte, Vivo)):
+            contador += 1
+            import sys
+            #print("\033c", end="")
+
+            tecla = input("Ingrese un movimiento (W, A, S, D) o Q para salir: ").lower()
+            resultado = self.actualizarPosicionJugador(tecla)
+            self.juego.gui.mostrar_laberinto(self.juego.gui.dict, self.posicion.numero)
+
+
+
 
 

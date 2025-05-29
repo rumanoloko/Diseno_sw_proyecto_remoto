@@ -6,6 +6,7 @@ from Laberinto_Juego.BichoAgresivo import BichoAgresivo
 from Laberinto_Juego.BichoPerezoso import BichoPerezoso
 from Laberinto_Juego.Ente import Bicho
 from Laberinto_Juego.Forma import Cuadrado
+from Laberinto_Juego.Gui import Gui
 from Laberinto_Juego.Habitacion import Habitacion
 from Laberinto_Juego.Juego import Juego
 from Laberinto_Juego.Laberinto import Laberinto
@@ -23,34 +24,15 @@ class LaberintoBuilder:
     def fabricarJuego(self, diccionario):
         self.juego = Juego()
         self.juego.laberinto, self.juego.bichos = self.fabricarLaberinto(diccionario)
+        self.fabricarGui()
         #self.juego.prototipo = self.laberinto
         #self.juego.laberinto = copy.deepcopy(self.juego.prototipo)
-        """
-        print("EL BICHO =>", self.juego.bichos[0].posicion)
-        print("HABITACION [0,0]", self.juego.laberinto.hijos[0].sur)
-        print("HABITACION [0,0]", self.juego.laberinto.hijos[0].este)
-        print("HABITACION [0,0]", self.juego.laberinto.hijos[0].oeste)
-        print("HABITACION [0,0]", self.juego.laberinto.hijos[0].norte)
-
-        print("HABITACION [0,1]", self.juego.laberinto.hijos[1].sur)
-        print("HABITACION [0,1]", self.juego.laberinto.hijos[1].este)
-        print("HABITACION [0,1]", self.juego.laberinto.hijos[1].oeste)
-        print("HABITACION [0,1]", self.juego.laberinto.hijos[1].norte)
-
-        print("HABITACION [1,1]", self.juego.laberinto.hijos[2].sur)
-        print("HABITACION [1,1]", self.juego.laberinto.hijos[2].este)
-        print("HABITACION [1,1]", self.juego.laberinto.hijos[2].oeste)
-        print("HABITACION [1,1]", self.juego.laberinto.hijos[2].norte)
-
-        print("HABITACION [1,0]", self.juego.laberinto.hijos[3].sur)
-        print("HABITACION [1,0]", self.juego.laberinto.hijos[3].este)
-        print("HABITACION [1,0]", self.juego.laberinto.hijos[3].oeste)
-        print("HABITACION [1,0]", self.juego.laberinto.hijos[3].norte)
-        self.juego.bichos[0].start()
-        """
         #for bicho in self.juego.bichos:
             #bicho.start()
         return self.juego
+
+    def fabricarGui(self):
+        self.juego.gui = Gui()
 
     def fabricarLaberinto(self, diccionario):
         habitaciones, puertas, bichos = {},[],[]
@@ -61,14 +43,14 @@ class LaberintoBuilder:
 
         for bicho in diccionario['bichos']:
             bich = self.fabricarBicho(bicho['modo'], bicho['posicion'])
-            print("Habitacion a asignar al bicho", habitaciones[tuple(bicho['posicion'])])
-            print("Bicho creado", bich)
+            #print("Habitacion a asignar al bicho", habitaciones[tuple(bicho['posicion'])])
+            #print("Bicho creado", bich)
             bich.posicion = habitaciones[tuple(bicho['posicion'])]
             habitaciones[tuple(bicho['posicion'])].añadirHijo(bich)
             bichos.append(bich)
 
         for puerta in diccionario['puertas']:
-            print("IMPRIMIENDO PUERTA: => ",puerta)
+            #print("IMPRIMIENDO PUERTA: => ",puerta)
             porta = self.fabricarPuerta()
             porta.lado1 = habitaciones[tuple(puerta['lado1'])]
             porta.lado2 = habitaciones[tuple(puerta['lado2'])]

@@ -10,4 +10,5 @@ if __name__ == '__main__':
     #print(juego.laberinto.hijos[0])
     print(juego.bichos[0])
     print(juego.personaje)
-    juego.iniciarJuego()
+    print(juego.iniciarJuego(director.dict))
+    #juego.iniciarJuego(director)

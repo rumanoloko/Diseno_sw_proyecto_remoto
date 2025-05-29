@@ -158,7 +158,8 @@ class HabitacionGUI(QMainWindow,):
                 self.juego.personaje.posicion = self.juego.personaje.posicion.este.lado1
 
         self.posicion_x, self.posicion_y = nueva_x, nueva_y
-        print(self.posicion_x, " ", self.posicion_y)
+        print("Habitacion: ", self.juego.personaje.posicion.numero)
+        print("Coordenada habitacion: ", [self.posicion_x,self.posicion_y])
         #print(type(self.juego.personaje.posicion.sur))
         #self.analizarHabitacion()
         self.dibujar_habitacion()

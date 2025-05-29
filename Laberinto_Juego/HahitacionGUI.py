@@ -4,6 +4,7 @@ from PyQt6.QtCore import Qt
 import sys
 
 from Laberinto_Juego import Pared, Puerta
+from Laberinto_Juego.Forma import Coordenada2D
 
 
 class HabitacionGUI(QMainWindow,):
@@ -12,11 +13,13 @@ class HabitacionGUI(QMainWindow,):
         self.setWindowTitle("Habitación con Paredes Definidas")
         self.setGeometry(200, 200, 450, 450)
         self.juego = juego
-        self.diccionarioSalidas = {
+        self.emojinBicho = '😃'
+        self.diccionarioPiezas = {
             'Norte': None,
             'Sur': None,
             'Este': None,
-            'Oeste': None
+            'Oeste': None,
+            'Bicho': False
         }
         # Dimensiones de la habitación (6x6)
         self.filas, self.columnas = 7,7
@@ -30,6 +33,24 @@ class HabitacionGUI(QMainWindow,):
 
         # Dibujar la habitación con paredes y salidas
         self.dibujar_habitacion()
+
+    def obtener_dimensiones(self):
+        maxX, maxY = 0, 0
+        for hab in self.juego.laberinto.hijos:
+            if hab.__class__.__name__ == 'Habitacion':
+                maxX = max(maxX, hab.numero[0])
+                maxY = max(maxY, hab.numero[1])
+        return maxX + 1, maxY + 1
+
+    def mostrar_laber(self):
+        filas, columnas = self.obtener_dimensiones()
+        # Crear matriz con habitaciones representadas por "□"
+        matriz = [["□" for _ in range(columnas)] for _ in range(filas)]
+        x, y = self.juego.personaje.posicion.numero[0], self.juego.personaje.posicion.numero[1]
+        matriz[x][y] = "\033[31mx\033[0m"
+        print("\n\n")
+        for fila in matriz:
+            print(" ".join(fila))
 
     def dibujar_habitacion(self):
         # Limpiar el grid layout
@@ -65,60 +86,75 @@ class HabitacionGUI(QMainWindow,):
                     contenido = "🧍"
 
                 if [x, y] == [0,3]: #NORTE
-                    contenido = self.diccionarioSalidas['Norte']
+                    contenido = self.diccionarioPiezas['Norte']
                 if[x, y] == [6,3]: #SUR
-                    contenido = self.diccionarioSalidas['Sur']
+                    contenido = self.diccionarioPiezas['Sur']
                 if [x, y] == [3,0]: #OESTE
-                    contenido = self.diccionarioSalidas['Oeste']
+                    contenido = self.diccionarioPiezas['Oeste']
                 if [x, y] == [3,6]: #ESTE
-                    contenido = self.diccionarioSalidas['Este']
+                    contenido = self.diccionarioPiezas['Este']
 
+                if [x, y] == [3, 3]:
+                    if self.diccionarioPiezas['Bicho']:
+                        contenido = self.emojinBicho
+                        print('Contenido: ', contenido)
+                    elif self.diccionarioPiezas['Bicho']:
+                        contenido = self.emojinBicho
+                        print('Contenido: ', contenido)
+                    self.diccionarioPiezas['Bicho'] = False
 
                 label = QLabel(contenido)
                 label.setAlignment(Qt.AlignmentFlag.AlignCenter)
                 label.setStyleSheet("font-size: 35px; font-family: Courier;")  # Fuente monoespaciada
                 self.grid_layout.addWidget(label, x, y)
+        self.mostrar_laber()
 
     def analizarHabitacion(self):
         habitacion = self.juego.personaje.posicion
-        """
-        # Debug: Mostrar información de la habitación
-        print("Clase Norte:", habitacion.norte.__class__.__name__)
-        print("Clase Sur:", habitacion.sur.__class__.__name__)
-        print("Clase Este:", habitacion.este.__class__.__name__)
-        print("Clase Oeste:", habitacion.oeste.__class__.__name__)
-        """
+        elementosHabitacion = habitacion.hijos
+        for elemento in elementosHabitacion:
+            if elemento.__class__.__name__ == 'Bicho':
+                if elemento.modo.__class__.__name__ == 'BichoPerezoso':
+                    self.diccionarioPiezas['Bicho'] = True
+                    self.emojinBicho = '🦥'
+                    print(self.emojinBicho)
+                elif elemento.modo.__class__.__name__ == 'BichoAgresivo':
+                    self.diccionarioPiezas['Bicho'] = True
+                    self.emojinBicho = '👹'
+                    print(self.emojinBicho)
+            #print(elemento.modo.__class__.__name__)
         # Norte
         if habitacion.norte.__class__.__name__ == 'Pared':
-            self.diccionarioSalidas['Norte'] = '═'
+            self.diccionarioPiezas['Norte'] = '═'
         elif habitacion.norte.__class__.__name__ == 'Puerta' and habitacion.norte.abierta:
-            self.diccionarioSalidas['Norte'] = ' '
+            self.diccionarioPiezas['Norte'] = ' '
         else:
-            self.diccionarioSalidas['Norte'] = '🟫'
+            self.diccionarioPiezas['Norte'] = '🟫'
 
         # Sur
         if habitacion.sur.__class__.__name__ == 'Pared':
-            self.diccionarioSalidas['Sur'] = '═'
+            self.diccionarioPiezas['Sur'] = '═'
         elif habitacion.sur.__class__.__name__ == 'Puerta' and habitacion.sur.abierta:
-            self.diccionarioSalidas['Sur'] = ' '
+            self.diccionarioPiezas['Sur'] = ' '
         else:
-            self.diccionarioSalidas['Sur'] = '🟫'
+            self.diccionarioPiezas['Sur'] = '🟫'
 
         # Este
         if habitacion.este.__class__.__name__ == 'Pared':
-            self.diccionarioSalidas['Este'] = '║'
+            self.diccionarioPiezas['Este'] = '║'
         elif habitacion.este.__class__.__name__ == 'Puerta' and habitacion.este.abierta:
-            self.diccionarioSalidas['Este'] = ' '
+            self.diccionarioPiezas['Este'] = ' '
         else:
-            self.diccionarioSalidas['Este'] = '🟫'
+            self.diccionarioPiezas['Este'] = '🟫'
 
         # Oeste
         if habitacion.oeste.__class__.__name__ == 'Pared':
-            self.diccionarioSalidas['Oeste'] = '║'
+            self.diccionarioPiezas['Oeste'] = '║'
         elif habitacion.oeste.__class__.__name__ == 'Puerta' and habitacion.oeste.abierta:
-            self.diccionarioSalidas['Oeste'] = ' '
+            self.diccionarioPiezas['Oeste'] = ' '
         else:
-            self.diccionarioSalidas['Oeste'] = '🟫'
+            self.diccionarioPiezas['Oeste'] = '🟫'
+
 
     def keyPressEvent(self, event: QKeyEvent):
         nueva_x, nueva_y = self.posicion_x, self.posicion_y
@@ -131,35 +167,34 @@ class HabitacionGUI(QMainWindow,):
             nueva_y -= 1
         elif event.key() == Qt.Key.Key_Right and nueva_y < self.columnas - 2:
             nueva_y += 1
-        elif event.key() == Qt.Key.Key_Up and nueva_x  == 1 and nueva_y == 3 and self.diccionarioSalidas['Norte'] == ' ':
+        elif event.key() == Qt.Key.Key_Up and nueva_x  == 1 and nueva_y == 3 and self.diccionarioPiezas['Norte'] == ' ':
             nueva_x = 5
             if self.juego.personaje.posicion.numero == self.juego.personaje.posicion.norte.lado1.numero:
                 self.juego.personaje.posicion = self.juego.personaje.posicion.norte.lado2
             else:
                 self.juego.personaje.posicion = self.juego.personaje.posicion.norte.lado1
-        elif event.key() == Qt.Key.Key_Down and nueva_x == 5 and nueva_y == 3 and self.diccionarioSalidas['Sur'] == ' ':
+        elif event.key() == Qt.Key.Key_Down and nueva_x == 5 and nueva_y == 3 and self.diccionarioPiezas['Sur'] == ' ':
             nueva_x = 1
             if self.juego.personaje.posicion.numero == self.juego.personaje.posicion.sur.lado1.numero:
                 self.juego.personaje.posicion = self.juego.personaje.posicion.sur.lado2
             else:
                 self.juego.personaje.posicion = self.juego.personaje.posicion.sur.lado1
 
-        elif event.key() == Qt.Key.Key_Left and nueva_y == 1 and nueva_x == 3 and self.diccionarioSalidas['Oeste'] == ' ':
+        elif event.key() == Qt.Key.Key_Left and nueva_y == 1 and nueva_x == 3 and self.diccionarioPiezas['Oeste'] == ' ':
             nueva_y = 5
             if self.juego.personaje.posicion.numero == self.juego.personaje.posicion.oeste.lado1.numero:
                 self.juego.personaje.posicion = self.juego.personaje.posicion.oeste.lado2
             else:
                 self.juego.personaje.posicion = self.juego.personaje.posicion.oeste.lado1
-        elif event.key() == Qt.Key.Key_Right and nueva_y == 5 and nueva_x == 3 and self.diccionarioSalidas['Este'] == ' ':
+        elif event.key() == Qt.Key.Key_Right and nueva_y == 5 and nueva_x == 3 and self.diccionarioPiezas['Este'] == ' ':
             nueva_y = 1
             if self.juego.personaje.posicion.numero == self.juego.personaje.posicion.este.lado1.numero:
                 self.juego.personaje.posicion = self.juego.personaje.posicion.este.lado2
             else:
                 self.juego.personaje.posicion = self.juego.personaje.posicion.este.lado1
-
         self.posicion_x, self.posicion_y = nueva_x, nueva_y
-        print("Habitacion: ", self.juego.personaje.posicion.numero)
-        print("Coordenada habitacion: ", [self.posicion_x,self.posicion_y])
+        #print("Habitacion: ", self.juego.personaje.posicion.numero)
+        #print("Coordenada habitacion: ", [self.posicion_x,self.posicion_y])
         #print(type(self.juego.personaje.posicion.sur))
         #self.analizarHabitacion()
         self.dibujar_habitacion()

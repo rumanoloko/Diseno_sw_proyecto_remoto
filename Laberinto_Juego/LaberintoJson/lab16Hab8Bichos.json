@@ -46,7 +46,7 @@
     {"lado1": [3,2], "direccion1": "Este", "lado2": [3,3], "direccion2": "Oeste", "abierta": true}
   ],
   "bichos": [
-    {"modo": "BichoAgresivo", "posicion": [0,0]},
+    {"modo": "BichoAgresivo", "posicion": [0,1]},
     {"modo": "BichoAgresivo", "posicion": [1,1]},
     {"modo": "BichoPerezoso", "posicion": [2,2]},
     {"modo": "BichoPerezoso", "posicion": [3,3]},

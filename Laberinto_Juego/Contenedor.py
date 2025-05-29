@@ -11,7 +11,7 @@ class Contenedor(ElementoMapa):
         self._padre: Contenedor | None = None  # Puede ser Contenedor o None
         self.forma = None
 
-    def añadirHijo(self, hijo: Any) -> bool:
+    def añadirHijo(self, hijo) -> bool:
         if hijo in self.hijos:
             return False
         hijo.padre = self

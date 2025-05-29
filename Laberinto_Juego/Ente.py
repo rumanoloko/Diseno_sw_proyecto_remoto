@@ -117,7 +117,7 @@ class Bicho(Ente):
         super().__init__(vidas, poder, posicion)
         self._numero = Bicho._numero
         Bicho._numero += 1
-        self._modo = modo
+        self.modo = modo
         self._running = False
         self._timer = None  # Para manejar el temporizador
 
@@ -188,11 +188,11 @@ class Bicho(Ente):
                 print(f"{self} se ha movido a {self.posicion}")
 
     def iniAgresivo(self):
-        self._modo = BichoAgresivo()
+        self.modo = BichoAgresivo()
         self._poder = 10
 
     def iniPerezoso(self):
-        self._modo = BichoPerezoso()
+        self.modo = BichoPerezoso()
         self._poder = 1
 
     def recorrer(self, func):
@@ -200,7 +200,7 @@ class Bicho(Ente):
             func(self)
 
     def __str__(self):
-        return self._modo.__str__()
+        return self.modo.__str__()
 
 class Personaje(Ente):
     from Laberinto_Juego.Juego import Juego

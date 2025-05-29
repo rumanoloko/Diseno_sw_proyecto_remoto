@@ -54,6 +54,7 @@ class Juego:
         from Laberinto_Juego.Ente import Personaje
         #"Petru-Vlad Pasat", 10, 4, juego.laberinto.hijos[0], juego, Vivo()
         self.personaje = Personaje(nombre, vidas, poder, posicion, juego, estadoEnte)
+        posicion.añadirHijo(self.personaje)
 
     def actualizarPosicionJugador(self, tecla):
         resultado = self.personaje.actualizarPosicion(tecla)

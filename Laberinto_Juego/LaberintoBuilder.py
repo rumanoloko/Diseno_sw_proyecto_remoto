@@ -46,7 +46,12 @@ class LaberintoBuilder:
             #print("Habitacion a asignar al bicho", habitaciones[tuple(bicho['posicion'])])
             #print("Bicho creado", bich)
             bich.posicion = habitaciones[tuple(bicho['posicion'])]
+            print('\n\n')
+            print(f"{bich} esta en la habitacion {bich.posicion.numero}")
+            print(f"Y la habitacion {bich.posicion.numero} en la que se encuentra contiene:")
             habitaciones[tuple(bicho['posicion'])].añadirHijo(bich)
+            for contenido in habitaciones[tuple(bicho['posicion'])].hijos:
+                print(contenido)
             bichos.append(bich)
 
         for puerta in diccionario['puertas']:

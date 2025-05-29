@@ -50,7 +50,7 @@ class Habitacion(Contenedor):
 
     @override
     def añadir(self, unaHabitacion) -> None:
-        self.habitaciones.append(unaHabitacion)
+        self.hijos.append(unaHabitacion)
 
     def añadir(self, orientacion, elemento):
         if orientacion == "Sur":

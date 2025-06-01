@@ -14,14 +14,14 @@ class Modo:
     def esPerezoso(self):
         return False
 
+    def esInformatico(self):
+        return False
+
     def actua(self, unBicho):
         pass
 
-    @abstractmethod
     def caminar(self, unBicho):
-        if unBicho.obtenerOrientacion():
-            pass
-        else: self(unBicho)#caminar:unBicho
+        unBicho.obtenerOrientacion()
 
     @abstractmethod
     def dormir(self, unBicho):

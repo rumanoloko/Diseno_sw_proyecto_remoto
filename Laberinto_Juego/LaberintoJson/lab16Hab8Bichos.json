@@ -49,10 +49,12 @@
     {"modo": "BichoAgresivo", "posicion": [0,1]},
     {"modo": "BichoAgresivo", "posicion": [1,1]},
     {"modo": "BichoPerezoso", "posicion": [2,2]},
-    {"modo": "BichoPerezoso", "posicion": [3,3]},
+    {"modo": "BichoPerezoso", "posicion": [2,3]},
     {"modo": "BichoAgresivo", "posicion": [3,0]},
     {"modo": "BichoAgresivo", "posicion": [2,1]},
     {"modo": "BichoPerezoso", "posicion": [1,2]},
     {"modo": "BichoPerezoso", "posicion": [0,3]}
-  ]
+  ],
+  "forma": "cuadrada",
+  "posicionInicial": [0, 0]
 }

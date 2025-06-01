@@ -23,7 +23,8 @@ class LaberintoBuilder:
 
     def fabricarJuego(self, diccionario):
         self.juego = Juego()
-        self.juego.laberinto, self.juego.bichos = self.fabricarLaberinto(diccionario)
+        self.juego.laberinto, self.juego.bichos = self.fabricarLaberinto(diccionario, self.juego)
+        self.juego.HabitacionDePartida = self.juego.laberinto.hijos[0]
         self.fabricarGui()
         #self.juego.prototipo = self.laberinto
         #self.juego.laberinto = copy.deepcopy(self.juego.prototipo)
@@ -34,7 +35,7 @@ class LaberintoBuilder:
     def fabricarGui(self):
         self.juego.gui = Gui()
 
-    def fabricarLaberinto(self, diccionario):
+    def fabricarLaberinto(self, diccionario, juego):
         habitaciones, puertas, bichos = {},[],[]
 
         for habitacion in diccionario['laberinto']:
@@ -46,6 +47,7 @@ class LaberintoBuilder:
             #print("Habitacion a asignar al bicho", habitaciones[tuple(bicho['posicion'])])
             #print("Bicho creado", bich)
             bich.posicion = habitaciones[tuple(bicho['posicion'])]
+            bich.juego = juego
             print('\n\n')
             print(f"{bich} esta en la habitacion {bich.posicion.numero}")
             print(f"Y la habitacion {bich.posicion.numero} en la que se encuentra contiene:")

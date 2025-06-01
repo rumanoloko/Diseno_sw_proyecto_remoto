@@ -16,6 +16,13 @@ class Director:
         #self.fabricarBicho()
         return self.juego
 
+    def agregarPersonaje(self, nombre, vidas, poder, posicion, juego, estadoEnte):
+        from Laberinto_Juego.Ente import Personaje
+        #"Petru-Vlad Pasat", 10, 4, juego.laberinto.hijos[0], juego, Vivo()
+        personaje = Personaje(nombre, vidas, poder, posicion, juego, estadoEnte)
+        posicion.añadirHijo(personaje)
+        juego.personaje = personaje
+
     def leerArchivo(self, archivoJson) -> Any:
         try:
             # Abrir el archivo JSON y cargar su contenido en self.dict

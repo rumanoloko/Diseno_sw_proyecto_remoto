@@ -1,5 +1,9 @@
 import sys
+import time
+from operator import truediv
 from typing import TYPE_CHECKING
+
+from Laberinto_Juego.Forma import Coordenada2D
 from Laberinto_Juego.HahitacionGUI import HabitacionGUI
 from Laberinto_Juego.Gui import Gui
 #from Laberinto_Juego.Creator import Creator
@@ -30,13 +34,15 @@ class Juego:
         self.bichos = []
         self.personaje = None
         self.gui = Gui()
+        self.ventana = None
+
 
     def iniciarJuego(self, dict):
         #self.bichos[0].start()
         #self.gui.mostrar_laberinto(dict, self.personaje.posicion.numero)
         for bicho in self.bichos:
-            pass
-            #bicho.start()
+            #pass
+            bicho.start()
         #self.personaje.start()
         self.iniciarInterfaz()
         #print(self.personaje.posicion)
@@ -46,9 +52,13 @@ class Juego:
 
     def iniciarInterfaz(self):
         app = QApplication(sys.argv)
-        ventana = HabitacionGUI(self)
-        ventana.show()
+        self.ventana = HabitacionGUI(self)
+        self.ventana.show()
         sys.exit(app.exec())
+
+    def refrestarInterfaz(self):
+        if self.ventana is not None:
+            self.ventana.dibujar_habitacion()
 
     def agregarPersonaje(self, nombre, vidas, poder, posicion, juego, estadoEnte):
         from Laberinto_Juego.Ente import Personaje
@@ -59,6 +69,15 @@ class Juego:
     def actualizarPosicionJugador(self, tecla):
         resultado = self.personaje.actualizarPosicion(tecla)
         return resultado
+
+    def buscarEnemigo(self, ente):
+        if ente.posicion.numero == self.personaje.posicion.numero and self.personaje.estadoEnte.__class__.__name__ == "Vivo":
+            self.personaje.esAtacadoPor(ente)
+            ente.esAtacadoPor(self.personaje)
+            return True
+        return False
+        self.ventana.dibujar_habitacion()
+        self.ventana.mostrar_laber()
 
     def crearLaberinto4Hab4BichosFM(self, unFM = None) -> tuple():
         hab1 = unFM.fabricarHabitacion([0,0])
@@ -137,25 +156,27 @@ class Juego:
         hab2.norte = puerta
         return laberinto
 
-    def obtenerHabitacionPorNumero(self):
-        pass
-
-    def buscarEnemigo(self):
-        pass
-
+    def obtenerHabitacionPorNumero(self, numero):
+        for habitacion in self.labetinro.hijos:
+            if habitacion.numero == numero:
+                return habitacion
+        return False
     def buscarPersonaje(self, unBicho):
-        pass
+        for contenido in self.bicho.posicion.hijos:
+            if contenido.__class__.__name__() == 'Personaje':
+                contenido
+        return False
 
     def gestionBichos(self):
-        pass
+        for bicho in self.bichos:
+            bicho.start()
 
     def agregarBicho(self, bicho) -> None:
         self.bichos.append(bicho)
 
     def eliminarBicho(self, bicho) -> None:
-        hayBicho = False
         if bicho in self.bichos:
             self.bichos.remove(bicho)
+            return True
         else:
-            pass
-            #raise error
+            return False

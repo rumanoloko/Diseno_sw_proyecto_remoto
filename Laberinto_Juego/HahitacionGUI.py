@@ -1,6 +1,7 @@
 from PyQt6.QtWidgets import QApplication, QLabel, QMainWindow, QGridLayout, QWidget
 from PyQt6.QtGui import QKeyEvent
 from PyQt6.QtCore import Qt
+import os
 import sys
 
 from Laberinto_Juego import Pared, Puerta
@@ -21,17 +22,17 @@ class HabitacionGUI(QMainWindow,):
             'Oeste': None,
             'Bicho': False
         }
-        # Dimensiones de la habitación (6x6)
-        self.filas, self.columnas = 7,7
-        self.posicion_x, self.posicion_y = 3,3  # Posición inicial del personaje
 
-        # Crear widget central y el layout en cuadrícula
+        self.filas, self.columnas = 7,7
+        self.posicion_x, self.posicion_y = 3,3
+
+
         self.central_widget = QWidget(self)
         self.grid_layout = QGridLayout(self.central_widget)
-        self.grid_layout.setSpacing(0)  # Sin espacios entre celdas
+        self.grid_layout.setSpacing(0)
         self.setCentralWidget(self.central_widget)
+        self.personajeMuerto ,self.habitacionBuena, self.posicionFinal = False, False,False
 
-        # Dibujar la habitación con paredes y salidas
         self.dibujar_habitacion()
 
     def obtener_dimensiones(self):
@@ -43,14 +44,57 @@ class HabitacionGUI(QMainWindow,):
         return maxX + 1, maxY + 1
 
     def mostrar_laber(self):
+        print('\n'*20)
         filas, columnas = self.obtener_dimensiones()
+
         # Crear matriz con habitaciones representadas por "□"
         matriz = [["□" for _ in range(columnas)] for _ in range(filas)]
-        x, y = self.juego.personaje.posicion.numero[0], self.juego.personaje.posicion.numero[1]
-        matriz[x][y] = "\033[31mx\033[0m"
-        print("\n\n")
+
+        # Posición del jugador en la matriz
+        x, y = self.juego.personaje.posicion.numero
+        matriz[x][y] = "\033[31mx\033[0m"  # Personaje en rojo
+
+        # Limpiar pantalla antes de imprimir
+        os.system('cls' if os.name == 'nt' else 'clear')
+
+        # Mostrar título en rojo intenso
+        print("\n\n\n\033[5;91mMapa\033[0m")
+
+        # Dibujar el mapa
         for fila in matriz:
             print(" ".join(fila))
+
+        # Mostrar información del jugador
+        print(f"\n{self.juego.personaje.nombre}")
+        print(f"❤️ Vidas: {self.juego.personaje.vidas}")
+        print(f"💪 Poder: {self.juego.personaje.poder}")
+        print(f"🌀 Aura: {self.juego.personaje.aura}")
+        print(f"🎒 Inventario: {', '.join(self.juego.personaje.inventario)}")
+        if self.personajeMuerto:
+            print("GAME OVER")
+        elif self.habitacionBuena and self.posicionFinal:
+            print("GANASTE!")
+            print("Obtuviste tu indulgencia y Dios te perdona la vida")
+        # Opciones disponibles
+        """
+        print("\nToma una decisión:")
+        print("1) Interactuar")
+        print("2) Atacar")
+        print("3) Usar Inventario")
+        # Capturar la opción del jugador
+        opcion = None
+
+        if opcion == "1":
+            print("\n💬 Has decidido interactuar con el entorno.")
+        elif opcion == "2":
+            print("\n⚔️ Has decidido atacar.")
+            self.juego.buscarEnemigo(self.juego.personaje)
+        elif opcion == "3":
+            print("\n🎒 Usando el inventario...")
+        else:
+            pass
+            #print("\n❌ Opción inválida.")
+        """
 
     def dibujar_habitacion(self):
         # Limpiar el grid layout
@@ -84,6 +128,8 @@ class HabitacionGUI(QMainWindow,):
                 # Mostrar el personaje en el centro
                 if [x, y] == [self.posicion_x, self.posicion_y]:
                     contenido = "🧍"
+                if [3,3] == [self.posicion_x, self.posicion_y]:
+                    self.posicionFinal= True
 
                 if [x, y] == [0,3]: #NORTE
                     contenido = self.diccionarioPiezas['Norte']
@@ -105,8 +151,9 @@ class HabitacionGUI(QMainWindow,):
 
                 label = QLabel(contenido)
                 label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-                label.setStyleSheet("font-size: 35px; font-family: Courier;")  # Fuente monoespaciada
+                label.setStyleSheet("font-size: 35px; font-family: Courier;")
                 self.grid_layout.addWidget(label, x, y)
+
         self.mostrar_laber()
 
     def analizarHabitacion(self):
@@ -117,11 +164,14 @@ class HabitacionGUI(QMainWindow,):
                 if elemento.modo.__class__.__name__ == 'BichoPerezoso':
                     self.diccionarioPiezas['Bicho'] = True
                     self.emojinBicho = '🦥'
-                    print(self.emojinBicho)
                 elif elemento.modo.__class__.__name__ == 'BichoAgresivo':
                     self.diccionarioPiezas['Bicho'] = True
                     self.emojinBicho = '👹'
-                    print(self.emojinBicho)
+                elif self.juego.personaje.vidas == 0:
+                    print("MURIOOOOO")
+                    self.personajeMuerto = True
+                if elemento.estadoEnte.__class__.__name__ == 'Muerto':
+                    self.emojinBicho = '🦴'
             #print(elemento.modo.__class__.__name__)
         # Norte
         if habitacion.norte.__class__.__name__ == 'Pared':
@@ -131,6 +181,9 @@ class HabitacionGUI(QMainWindow,):
         else:
             self.diccionarioPiezas['Norte'] = '🟫'
 
+        if habitacion.numero == [3,3]:
+            self.habitacionBuena = True
+
         # Sur
         if habitacion.sur.__class__.__name__ == 'Pared':
             self.diccionarioPiezas['Sur'] = '═'
@@ -138,6 +191,11 @@ class HabitacionGUI(QMainWindow,):
             self.diccionarioPiezas['Sur'] = ' '
         else:
             self.diccionarioPiezas['Sur'] = '🟫'
+
+        if habitacion.numero == [3, 3]:
+            self.diccionarioPiezas['Bicho'] = True
+            self.emojinBicho = '📜'
+
 
         # Este
         if habitacion.este.__class__.__name__ == 'Pared':
@@ -158,6 +216,17 @@ class HabitacionGUI(QMainWindow,):
 
     def keyPressEvent(self, event: QKeyEvent):
         nueva_x, nueva_y = self.posicion_x, self.posicion_y
+        self.juego.personaje.posicion.eliminarHijo(self.juego.personaje)
+
+        """
+        if event.key() == Qt.Key.Key_1:
+            print("\n💬 Has decidido interactuar con el entorno.")
+        elif event.key() == Qt.Key.Key_2:
+            print("\n⚔️ Has decidido atacar.")
+            self.juego.buscarEnemigo(self.juego.personaje)
+        elif event.key() == Qt.Key.Key_3:
+            print("\n🎒 Usando el inventario...")
+        """
 
         if event.key() == Qt.Key.Key_Up and nueva_x > 1:
             nueva_x -= 1
@@ -193,8 +262,5 @@ class HabitacionGUI(QMainWindow,):
             else:
                 self.juego.personaje.posicion = self.juego.personaje.posicion.este.lado1
         self.posicion_x, self.posicion_y = nueva_x, nueva_y
-        #print("Habitacion: ", self.juego.personaje.posicion.numero)
-        #print("Coordenada habitacion: ", [self.posicion_x,self.posicion_y])
-        #print(type(self.juego.personaje.posicion.sur))
-        #self.analizarHabitacion()
+        self.juego.personaje.posicion.añadirHijo(self.juego.personaje)
         self.dibujar_habitacion()

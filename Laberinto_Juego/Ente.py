@@ -1,10 +1,12 @@
 import string
 import threading
 import random
+import time
 from typing import override, TYPE_CHECKING
 from Laberinto_Juego import Habitacion, Puerta
 #from Laberinto_Juego.EstadoEnte  import EstadoEnte
 from Laberinto_Juego.BichoAgresivo import BichoAgresivo
+from Laberinto_Juego.BichoInformatico import BichoInformatico
 from Laberinto_Juego.BichoPerezoso import BichoPerezoso
 from Laberinto_Juego import Tunel
 from Laberinto_Juego.Pared import Pared
@@ -62,15 +64,21 @@ class Ente:
         self._posicion = posicion
         self._juego = juego
         self._estadoEnte = estadoEnte
+        self.aura = 0
+        self.reductorDaño = 0
+
 
     def esAtacadoPor(self, atacante):
         print(f"{self} es atacado por {atacante}")
-        self._vidas -= atacante.poder
+        self._vidas -= (atacante.poder - self.reductorDaño)
+        if self.vidas < 0:
+            self.vidas = 0
         print(f"A {self} le quedan {self._vidas}")
-
         if self._vidas <= 0:
             print(f"{self} a muerto")
             self.estadoEnte.morir(self)
+        #print(self.estadoEnte.__class__.__name__)
+
 
     @property
     def vidas(self):
@@ -110,19 +118,26 @@ class Ente:
         self._estadoEnte = estadoEnte
 
 
+import threading
+import random
+
+import threading
+import random
+
 class Bicho(Ente):
     _numero = 0
-    _lock = threading.Lock()  # Lock global para sincronizar la salida
+    _lock = threading.Lock()
+
     def __init__(self, modo=None, posicion: Habitacion = None, vidas: int = 5, poder: int = 1) -> None:
         super().__init__(vidas, poder, posicion)
         self._numero = Bicho._numero
         Bicho._numero += 1
         self.modo = modo
         self._running = False
-        self._timer = None  # Para manejar el temporizador
+        self._timer = None
+        self._enemigo_timer = None
 
     def start(self):
-        """Inicia la ejecución del Bicho solo si tiene una posición asignada."""
         if self._posicion is None:
             with Bicho._lock:
                 print(f"Error: No se puede iniciar {self} porque no tiene una posición asignada.")
@@ -131,36 +146,57 @@ class Bicho(Ente):
         with Bicho._lock:
             print(f"{self} ha comenzado en {self.posicion}")
 
+        self._running = True
         self.start_camina()
+        self.start_buscar_enemigo()
+
+    def stop(self):
+        self.stop_camina()
+        self.stop_buscar_enemigo()
+        self._running = False
 
     def start_camina(self):
-        """Inicia el movimiento del bicho cada 3 segundos sin bloquear el programa."""
-        if not self._running:
-            self._running = True
+        if self._running:
             self._mover_bicho()
 
     def stop_camina(self):
-        """Detiene el movimiento del bicho."""
-        self._running = False
         if self._timer:
-            self._timer.cancel()  # Cancela el temporizador activo
+            self._timer.cancel()
 
     def _mover_bicho(self):
-        """Ejecuta camina() y programa la siguiente ejecución en 3 segundos."""
         if self._running:
             self.camina()
             self._timer = threading.Timer(3, self._mover_bicho)
             self._timer.start()
 
+    def start_buscar_enemigo(self):
+        if self._running:
+            self._buscar_enemigo_periodico()
+
+    def stop_buscar_enemigo(self):
+        if self._enemigo_timer:
+            self._enemigo_timer.cancel()
+
+    def _buscar_enemigo_periodico(self):
+        if not self._running:
+            return
+
+        if self.estadoEnte.__class__.__name__ == "Vivo":
+            with Bicho._lock:
+                self.atacarPersonaje()
+
+        # Reprograma la siguiente ejecución
+        self._enemigo_timer = threading.Timer(3.5, self._buscar_enemigo_periodico)
+        self._enemigo_timer.start()
+
     def camina(self):
-        """El bicho intenta moverse a una habitación conectada."""
         if not self.posicion:
             with Bicho._lock:
                 print(f"Error: {self} no tiene una posición inicial válida.")
             return
 
         opciones = [self.posicion.norte, self.posicion.oeste, self.posicion.este, self.posicion.sur]
-        opciones = [o for o in opciones if o]  # Filtra valores None
+        opciones = [o for o in opciones if o]
 
         if not opciones:
             with Bicho._lock:
@@ -170,6 +206,7 @@ class Bicho(Ente):
         neo_posicion = random.choice(opciones)
 
         with Bicho._lock:
+            """
             if isinstance(neo_posicion, Pared):
                 #print(f"El subnormal del {self} chocó con una pared en {self._posicion}")
                 print(f"{self} está en {self._posicion}")
@@ -186,14 +223,22 @@ class Bicho(Ente):
             else:
                 self.posicion = neo_posicion
                 print(f"{self} se ha movido a {self.posicion}")
+            """
+    def atacarPersonaje(self):
+        self.juego.buscarEnemigo(self)
+
 
     def iniAgresivo(self):
         self.modo = BichoAgresivo()
-        self._poder = 10
+        self._poder = 2
 
     def iniPerezoso(self):
         self.modo = BichoPerezoso()
         self._poder = 1
+
+    def iniInformatico(self):
+        self.modo = BichoInformatico()
+        self._poder = 4
 
     def recorrer(self, func):
         with Bicho._lock:
@@ -202,11 +247,13 @@ class Bicho(Ente):
     def __str__(self):
         return self.modo.__str__()
 
+
 class Personaje(Ente):
     from Laberinto_Juego.Juego import Juego
     def __init__(self, nombre: string, vidas: int = 10, poder: int = 4, posicion:Habitacion = None, juego:Juego = None, estadoEnte: EstadoEnte = Vivo()) -> None:
         super().__init__(vidas, poder, posicion, juego, estadoEnte)
-        self._nombre = nombre
+        self.nombre = nombre
+        self.inventario = []
 
     def actualizarPosicionJugador(self, tecla):
         diccionarioOrientaciones = {}
@@ -224,7 +271,7 @@ class Personaje(Ente):
                 return False
         return False
 
-    def clonarLabeinto(self, tunel: Tunel) -> None:
+    def clonarLabebinto(self, tunel: Tunel) -> None:
         tunel.puedeClonarLaberinto()
 
     def atacar(self):
@@ -232,19 +279,7 @@ class Personaje(Ente):
 
 
     def __str__(self):
-        return self._nombre
-
-    def start(self):
-        contador = 0
-        print("Here we go again")
-        while(isinstance(self.estadoEnte, Vivo)):
-            contador += 1
-            import sys
-            #print("\033c", end="")
-
-            tecla = input("Ingrese un movimiento (W, A, S, D) o Q para salir: ").lower()
-            resultado = self.actualizarPosicionJugador(tecla)
-            self.juego.gui.mostrar_laberinto(self.juego.gui.dict, self.posicion.numero)
+        return self.nombre
 
 
 

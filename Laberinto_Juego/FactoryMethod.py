@@ -1,7 +1,7 @@
 from abc import ABC
 
-from AbstractFactory import fabricarPared
-from Laberinto_Juego import Habitacion, Puerta, Laberinto, Pared, Juego, BichoPerezoso
+from Laberinto_Juego.AbstractFactory import fabricarPared
+from Laberinto_Juego import Habitacion, Puerta, Laberinto, Pared, BichoPerezoso
 from Laberinto_Juego.Bicho import Bicho
 from Laberinto_Juego.BichoAgresivo import BichoAgresivo
 
